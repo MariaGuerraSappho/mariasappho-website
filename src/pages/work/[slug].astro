@@ -22,11 +22,11 @@ const collabs = (await Promise.all(d.collaborations.map((c) => getEntry('collabo
 const images = d.tags[0] === 'score' ? [] : d.cover ? [d.cover, ...d.gallery] : d.gallery;
 ---
 <Base title={d.title} description={d.subtitle ?? `${d.title} by Maria Sappho`}>
-  <Entry title={d.title} subtitle={d.subtitle} meta={d.year?.toString()} kind={d.tags[0]} seed={`/work/${entry.id}/`} back={{ href: '/work/', label: 'Work' }} stage={images.length === 0 && d.videos.length === 0}>
+  <Entry title={d.title} subtitle={d.subtitle} meta={d.year?.toString()} kind={d.tags[0]} seed={`/work/${entry.id}/`} trail={[{ href: '/work/', label: 'Work' }, { href: `/work/all/?type=${d.tags[0]}`, label: workTypes[d.tags[0] as keyof typeof workTypes] }]} stage={images.length === 0 && d.videos.length === 0}>
     <Fragment slot="rail">
       <p class="rail-tags">
         {d.tags.map((t) => <a href={`/work/all/?type=${t}`}>{workTypes[t as keyof typeof workTypes]}</a>)}
-        {d.themes.map((t) => <a href={`/themes/${t}/`}>{themes[t as keyof typeof themes]}</a>)}
+        {d.themes.filter((t) => !(t === 'instruments' && d.tags.includes('instrument'))).map((t) => <a href={`/themes/${t}/`}>{themes[t as keyof typeof themes]}</a>)}
         {collabs.map((c) => <a href={`/collaborations/${c!.id}/`}>{c!.data.title}</a>)}
       </p>
     </Fragment>

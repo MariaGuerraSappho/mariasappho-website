@@ -1,62 +1,93 @@
 ---
 import Gesture from './Gesture.astro';
-interface Props { groups: { key: string; label: string; options: Record<string, string>; runes?: boolean }[]; search?: boolean }
-const { groups, search = false } = Astro.props;
+interface Props { groups?: { key: string; label: string; options: Record<string, string>; runes?: boolean }[]; search?: boolean; noun?: string; placeholder?: string; hint?: string; focus?: boolean }
+const { groups = [], search = false, noun = 'items', placeholder = 'Search', hint, focus = false } = Astro.props;
 ---
-<div class="filter-bar">
-  {search && <input class="search" type="search" placeholder="Search" aria-label="Search all work and research" data-search-box />}
+<div class="filter-bar" data-noun={noun} data-hint={hint}>
+  {search && <input class="search" type="search" placeholder={placeholder} aria-label={placeholder} data-search-box autofocus={focus} />}
   {groups.map((g) => (
-    <div class="filters" role="group" aria-label={g.label} data-group={g.key}>
-      <button class="chip" type="button" data-value="" aria-pressed="true">All</button>
-      {Object.entries(g.options).map(([value, label]) => (
-        <button class="chip" type="button" data-value={value} aria-pressed="false">
-          {g.runes && <Gesture kind={value} seed="key" />}{label}
-        </button>
-      ))}
+    <div class="filter-row">
+      <span class="filter-label">{g.label}</span>
+      <div class="filters" role="group" aria-label={g.label} data-group={g.key}>
+        <button class="chip" type="button" data-value="" aria-pressed="true">All</button>
+        {Object.entries(g.options).map(([value, label]) => (
+          <button class="chip" type="button" data-value={value} aria-pressed="false">
+            {g.runes && <Gesture kind={value} seed="key" />}{label}<span class="chip-count" data-count></span>
+          </button>
+        ))}
+      </div>
     </div>
   ))}
+  <p class="filter-summary" aria-live="polite"><span data-summary></span> <button type="button" data-clear hidden>Clear all</button></p>
 </div>
 <script>
+  const bar = document.querySelector<HTMLElement>('.filter-bar')!;
   const groups = [...document.querySelectorAll<HTMLElement>('.filters[data-group]')];
   const tiles = [...document.querySelectorAll<HTMLElement>('[data-filters]')];
   const params = new URLSearchParams(location.search);
   const box = document.querySelector<HTMLInputElement>('[data-search-box]');
+  const summary = bar.querySelector<HTMLElement>('[data-summary]')!;
+  const clear = bar.querySelector<HTMLButtonElement>('[data-clear]')!;
+  const { noun, hint } = bar.dataset;
+
+  const chosen = (g: HTMLElement) => g.querySelector<HTMLElement>('[aria-pressed="true"]')!.dataset.value!;
+  const query = () => box?.value.trim().toLowerCase() ?? '';
+
+  function fits(t: HTMLElement, wanted: string[]) {
+    const have = t.dataset.filters!.split(' ');
+    const q = query();
+    const matches = q.split(/\s+/).every((word) => (t.dataset.search ?? '').includes(word));
+    return wanted.every((a) => have.includes(a)) && matches && (!('searchOnly' in t.dataset) || !!q);
+  }
 
   function apply() {
-    const active = groups.map((g) => g.querySelector<HTMLElement>('[aria-pressed="true"]')!.dataset.value!).filter(Boolean);
+    const active = groups.map(chosen).filter(Boolean);
+    let shown = 0;
     for (const t of tiles) {
-      const have = t.dataset.filters!.split(' ');
-      const q = box?.value.trim().toLowerCase() ?? '';
-      const matches = q.split(/\s+/).every((word) => (t.dataset.search ?? '').includes(word));
-      t.hidden = !active.every((a) => have.includes(a)) || !matches || ('searchOnly' in t.dataset && !q);
+      t.hidden = !fits(t, active);
+      if (!t.hidden) shown++;
     }
+    // Each option counts what it would show alongside the choices in the other rows, so nothing leads to an empty page.
+    for (const g of groups) {
+      const others = groups.filter((o) => o !== g).map(chosen).filter(Boolean);
+      g.querySelectorAll<HTMLButtonElement>('.chip[data-value]:not([data-value=""])').forEach((c) => {
+        const n = tiles.filter((t) => fits(t, [...others, c.dataset.value!])).length;
+        c.querySelector('[data-count]')!.textContent = String(n);
+        c.disabled = n === 0;
+      });
+    }
+    const q = query();
+    summary.textContent = !q && hint ? hint : q || active.length
+      ? (shown ? `${shown} ${shown === 1 ? 'result' : 'results'}` : q ? `Nothing found for “${box!.value.trim()}”` : 'Nothing matches')
+      : `${shown} ${noun}`;
+    clear.hidden = !q && !active.length;
     const url = new URL(location.href);
     groups.forEach((g) => {
-      const v = g.querySelector<HTMLElement>('[aria-pressed="true"]')!.dataset.value;
+      const v = chosen(g);
       v ? url.searchParams.set(g.dataset.group!, v) : url.searchParams.delete(g.dataset.group!);
     });
+    q ? url.searchParams.set('q', box!.value) : url.searchParams.delete('q');
     history.replaceState(null, '', url);
   }
 
+  const press = (chips: HTMLButtonElement[], value: string) => chips.forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.value === value)));
   for (const g of groups) {
     const wanted = params.get(g.dataset.group!);
     const chips = [...g.querySelectorAll<HTMLButtonElement>('.chip')];
-    if (wanted && chips.some((c) => c.dataset.value === wanted)) {
-      chips.forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.value === wanted)));
-    }
+    if (wanted && chips.some((c) => c.dataset.value === wanted)) press(chips, wanted);
     chips.forEach((c) => c.addEventListener('click', () => {
-      chips.forEach((o) => o.setAttribute('aria-pressed', String(o === c)));
+      press(chips, c.dataset.value!);
       apply();
     }));
   }
   if (box) {
     box.value = params.get('q') ?? '';
-    box.addEventListener('input', () => {
-      apply();
-      const url = new URL(location.href);
-      box.value ? url.searchParams.set('q', box.value) : url.searchParams.delete('q');
-      history.replaceState(null, '', url);
-    });
+    box.addEventListener('input', apply);
   }
+  clear.addEventListener('click', () => {
+    groups.forEach((g) => press([...g.querySelectorAll<HTMLButtonElement>('.chip')], ''));
+    if (box) box.value = '';
+    apply();
+  });
   apply();
 </script>

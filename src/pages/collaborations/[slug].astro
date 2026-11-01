@@ -18,7 +18,7 @@ const works = (await getCollection('works')).filter((w) => w.data.collaborations
 const images = d.cover ? [d.cover, ...d.gallery] : d.gallery;
 ---
 <Base title={d.title} description={d.summary}>
-  <Entry title={d.title} subtitle={d.summary} kind="collaboration" seed={`/collaborations/${entry.id}/`} back={{ href: '/collaborations/', label: 'Collaborations' }}>
+  <Entry title={d.title} subtitle={d.summary} kind="collaboration" seed={`/collaborations/${entry.id}/`} trail={[{ href: '/collaborations/', label: 'Collaborations' }]}>
     <Carousel title={d.title} videos={d.videos} images={images} />
     <Audio title={d.title} audio={d.audio} />
     <ReadMore><Content /></ReadMore>

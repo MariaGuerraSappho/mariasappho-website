@@ -18,6 +18,7 @@ export const nav = [
   { label: 'Research', href: '/research/' },
   { label: 'Now', href: '/now/' },
   { label: 'About', href: '/about/' },
+  { label: 'Search', href: '/search/' },
 ];
 
 export const socials = [

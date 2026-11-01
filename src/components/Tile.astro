@@ -1,9 +1,10 @@
 ---
 import Gesture from './Gesture.astro';
-interface Props { href: string; title: string; kind: string; filters?: string[]; draws?: boolean; search?: string; searchOnly?: boolean }
-const { href, title, kind, filters = [], draws = false, search, searchOnly = false } = Astro.props;
+interface Props { href: string; title: string; kind: string; filters?: string[]; draws?: boolean; search?: string; searchOnly?: boolean; label?: string }
+const { href, title, kind, filters = [], draws = false, search, searchOnly = false, label } = Astro.props;
 ---
 <a class="tile" href={href} data-filters={filters.join(' ')} data-search={search} data-search-only={searchOnly ? '' : undefined} hidden={searchOnly}>
   <Gesture kind={kind} seed={href} draws={draws} />
   <span class="tile-title">{title}</span>
+  {label && <span class="tile-label">{label}</span>}
 </a>

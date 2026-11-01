@@ -20,7 +20,7 @@ const label = researchTypes[d.type as keyof typeof researchTypes];
 const citation = `${d.authors} (${d.status === 'in-press' ? 'in press' : d.year ?? 'n.d.'}). ${d.title}.${d.venue ? ` ${d.venue}.` : ''}${d.doi ? ` https://doi.org/${d.doi}` : ''}`;
 ---
 <Base title={d.title} description={`${label} by ${d.authors}`}>
-  <Entry title={d.title} subtitle={d.authors} meta={[d.status === 'in-press' ? 'In press' : d.year, label, d.venue].filter(Boolean).join(' · ')} kind={d.type} seed={`/research/${entry.id}/`} back={{ href: '/research/', label: 'Research' }}>
+  <Entry title={d.title} subtitle={d.authors} meta={[d.status === 'in-press' ? 'In press' : d.year, label, d.venue].filter(Boolean).join(' · ')} kind={d.type} seed={`/research/${entry.id}/`} trail={[{ href: '/research/', label: 'Research' }, ...(label ? [{ href: `/research/?type=${d.type}`, label }] : [])]}>
     <Fragment slot="rail">
       <ul class="rail-links">
         <li><button type="button" data-cite={citation}>Copy citation</button></li>

@@ -41,7 +41,7 @@ const link = (r: (typeof items)[number]) => `/research/${r.id}/`;
   </section>
 
   <h2 class="section-title">Publications</h2>
-  <Filters search groups={[{ key: 'type', label: 'Filter by type', options: usedTypes, runes: true }, { key: 'theme', label: 'Filter by theme', options: usedThemes }]} />
+  <Filters search noun="publications" placeholder="Search research" groups={[{ key: 'type', label: 'Type', options: usedTypes, runes: true }, { key: 'theme', label: 'Theme', options: usedThemes }]} />
   <ol class="pubs">
     {items.map((r) => (
       <li data-filters={[r.data.type, ...r.data.themes].join(' ')} data-search={[r.data.title, r.data.authors, r.data.venue, r.data.year].join(' ').toLowerCase()}>
