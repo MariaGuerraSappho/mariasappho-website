@@ -1,0 +1,26 @@
+---
+import { ribbon, seeded } from '../lib/gesture';
+interface Props { people: { name: string; papers: number }[] }
+const { people } = Astro.props;
+const W = 640, H = 460, cx = W / 2, cy = H / 2;
+const r = seeded('coauthors');
+const links = people.map((p, i) => {
+  const a = (i / people.length) * Math.PI * 2 - Math.PI / 2;
+  const rx = 215 + (i % 2) * 28, ry = 158 + (i % 2) * 28;
+  const x = cx + Math.cos(a) * rx, y = cy + Math.sin(a) * ry;
+  const mx = (cx + x) / 2 + (r() - .5) * 60, my = (cy + y) / 2 + (r() - .5) * 60;
+  return { ...p, x, y, side: Math.cos(a), d: ribbon([[cx, cy], [mx, my], [x, y]], 0.8 + p.papers * 0.35, r, 0.2) };
+});
+---
+<svg class="coauthors" viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Network of co-authors">
+  <defs><linearGradient id="co" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2={W} y2={H}><stop offset="0" stop-color="#b79a3e" /><stop offset="1" stop-color="#7c2232" /></linearGradient></defs>
+  {links.map((l) => <path d={l.d} fill="url(#co)" />)}
+  {links.map((l) => (
+    <g>
+      <circle cx={l.x} cy={l.y} r={2.2 + l.papers * 0.7} fill="#c08f3a" />
+      <text x={l.x + (l.side > 0.15 ? 10 : l.side < -0.15 ? -10 : 0)} y={l.y + (Math.abs(l.side) <= 0.15 ? (l.y > cy ? 18 : -10) : 4)} text-anchor={l.side > 0.15 ? 'start' : l.side < -0.15 ? 'end' : 'middle'}>{l.name}</text>
+    </g>
+  ))}
+  <circle cx={cx} cy={cy} r="7" fill="#a63a46" />
+  <text class="centre" x={cx} y={cy - 14} text-anchor="middle">Maria Sappho</text>
+</svg>

@@ -1,0 +1,10 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Tile from '../../components/Tile.astro';
+const items = (await getCollection('collaborations')).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="Collaborations" description="Maria Sappho's ongoing collaborators, groups and non-human partners.">
+  <h1 class="page-title">Collaborations</h1>
+  <div class="tiles">{items.map((c) => <Tile href={`/collaborations/${c.id}/`} title={c.data.title} kind="collaboration" draws />)}</div>
+</Base>

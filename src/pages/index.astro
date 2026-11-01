@@ -1,0 +1,47 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Gesture from '../components/Gesture.astro';
+import Socials from '../components/Socials.astro';
+import home from '../assets/site/home.jpg';
+import { homeNext } from '../data/now';
+import { nav, site } from '../data/site';
+
+const featured = [
+  { title: 'ZEMI', href: '/work/zemi/', kind: 'installation' },
+  { title: 'SYZYGY', href: '/work/syzygy/', kind: 'installation' },
+  { title: 'The Ostoyae', href: '/work/the-ostoyae/', kind: 'instrument' },
+  { title: 'Sapphnetic Piano', href: '/work/sapphnetic-piano/', kind: 'instrument' },
+];
+---
+<Base onHero>
+  <div class="home">
+    <Image class="home-bg" src={home} alt="Maria Sappho playing inside a grand piano with mallets and balls" widths={[800, 1400, 2048]} sizes="100vw" loading="eager" fetchpriority="high" />
+    <div class="home-frame">
+      <header class="site-header">
+        <a class="wordmark" href="/">MARIA SAPPHO</a>
+        <nav class="menu" aria-label="Main">{nav.map((n) => <a href={n.href}>{n.label}</a>)}</nav>
+      </header>
+      <main class="home-main">
+        <div class="home-text">
+          <h1 class="visually-hidden">{site.name}</h1>
+          <p>{site.award}</p>
+          <p class="home-next">{homeNext.map((n) => <a href={n.href} data-until={n.until}>{n.label}</a>)}</p>
+        </div>
+        <div class="home-now">
+          {featured.map((f) => (
+            <a href={f.href}>
+              <Gesture kind={f.kind} seed={f.href} draws />
+              <span>{f.title}</span>
+            </a>
+          ))}
+        </div>
+      </main>
+      <footer class="home-foot"><Socials /></footer>
+    </div>
+  </div>
+</Base>
+<script>
+  const today = new Date().toISOString().slice(0, 10);
+  document.querySelectorAll<HTMLElement>('[data-until]').forEach((a) => { if (a.dataset.until! < today) a.remove(); });
+</script>

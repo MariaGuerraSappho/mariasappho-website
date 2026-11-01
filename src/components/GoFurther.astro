@@ -1,0 +1,9 @@
+---
+interface Props { links: { label: string; url: string }[] }
+const { links } = Astro.props;
+---
+{links.length > 0 && (
+  <nav class="go-further" aria-label="Go further">
+    {links.map((l) => <a href={l.url} rel="noopener" target={l.url.startsWith('/') && !l.url.endsWith('.pdf') ? undefined : '_blank'}><span>{l.label}</span><span aria-hidden="true">&nearr;</span></a>)}
+  </nav>
+)}

@@ -1,0 +1,62 @@
+---
+import Gesture from './Gesture.astro';
+interface Props { groups: { key: string; label: string; options: Record<string, string>; runes?: boolean }[]; search?: boolean }
+const { groups, search = false } = Astro.props;
+---
+<div class="filter-bar">
+  {search && <input class="search" type="search" placeholder="Search" aria-label="Search all work and research" data-search-box />}
+  {groups.map((g) => (
+    <div class="filters" role="group" aria-label={g.label} data-group={g.key}>
+      <button class="chip" type="button" data-value="" aria-pressed="true">All</button>
+      {Object.entries(g.options).map(([value, label]) => (
+        <button class="chip" type="button" data-value={value} aria-pressed="false">
+          {g.runes && <Gesture kind={value} seed="key" />}{label}
+        </button>
+      ))}
+    </div>
+  ))}
+</div>
+<script>
+  const groups = [...document.querySelectorAll<HTMLElement>('.filters[data-group]')];
+  const tiles = [...document.querySelectorAll<HTMLElement>('[data-filters]')];
+  const params = new URLSearchParams(location.search);
+  const box = document.querySelector<HTMLInputElement>('[data-search-box]');
+
+  function apply() {
+    const active = groups.map((g) => g.querySelector<HTMLElement>('[aria-pressed="true"]')!.dataset.value!).filter(Boolean);
+    for (const t of tiles) {
+      const have = t.dataset.filters!.split(' ');
+      const q = box?.value.trim().toLowerCase() ?? '';
+      const matches = q.split(/\s+/).every((word) => (t.dataset.search ?? '').includes(word));
+      t.hidden = !active.every((a) => have.includes(a)) || !matches || ('searchOnly' in t.dataset && !q);
+    }
+    const url = new URL(location.href);
+    groups.forEach((g) => {
+      const v = g.querySelector<HTMLElement>('[aria-pressed="true"]')!.dataset.value;
+      v ? url.searchParams.set(g.dataset.group!, v) : url.searchParams.delete(g.dataset.group!);
+    });
+    history.replaceState(null, '', url);
+  }
+
+  for (const g of groups) {
+    const wanted = params.get(g.dataset.group!);
+    const chips = [...g.querySelectorAll<HTMLButtonElement>('.chip')];
+    if (wanted && chips.some((c) => c.dataset.value === wanted)) {
+      chips.forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.value === wanted)));
+    }
+    chips.forEach((c) => c.addEventListener('click', () => {
+      chips.forEach((o) => o.setAttribute('aria-pressed', String(o === c)));
+      apply();
+    }));
+  }
+  if (box) {
+    box.value = params.get('q') ?? '';
+    box.addEventListener('input', () => {
+      apply();
+      const url = new URL(location.href);
+      box.value ? url.searchParams.set('q', box.value) : url.searchParams.delete('q');
+      history.replaceState(null, '', url);
+    });
+  }
+  apply();
+</script>

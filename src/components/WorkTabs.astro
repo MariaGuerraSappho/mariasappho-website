@@ -1,0 +1,8 @@
+---
+interface Props { current: 'highlights' | 'all' }
+const { current } = Astro.props;
+---
+<nav class="tabs" aria-label="Work views">
+  <a href="/work/" aria-current={current === 'highlights' ? 'page' : undefined}>Highlights</a>
+  <a href="/work/all/" aria-current={current === 'all' ? 'page' : undefined}>All works</a>
+</nav>

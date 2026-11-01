@@ -1,0 +1,21 @@
+name: Four-monthly update check
+on:
+  schedule:
+    - cron: '0 9 1 1,5,9 *'
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - run: node scripts/check-updates.mjs
+      - name: Send the checklist
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh issue create --title "Website update check, $(date +%B\ %Y)" --body-file update-report.md

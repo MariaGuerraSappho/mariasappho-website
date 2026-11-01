@@ -1,0 +1,31 @@
+---
+import { gesture } from '../lib/gesture';
+interface Props { kind: string; seed: string; class?: string; draws?: boolean }
+const { kind, seed, class: className, draws = false } = Astro.props;
+const { id, angle, colors, shapes, transform } = gesture(kind, seed);
+---
+<svg class:list={['gesture', className, { draws }]} viewBox="0 0 100 100" aria-hidden="true">
+  <defs>
+    <linearGradient id={id} gradientUnits="objectBoundingBox" gradientTransform={`rotate(${angle} .5 .5)`}>
+      <stop offset="0" stop-color={colors[0]} />
+      <stop offset="1" stop-color={colors[1]} />
+    </linearGradient>
+    {draws && shapes.map((s, i) => s.spine && (
+      <mask id={`${id}m${i}`} maskUnits="userSpaceOnUse" x="-30" y="-30" width="160" height="160">
+        <path class="stroke" d={s.spine} pathLength="1" fill="none" stroke="#fff" stroke-width={s.width} style={`--i:${i}`} />
+      </mask>
+    ))}
+  </defs>
+  <g transform={transform}>
+    {shapes.map((s, i) => (
+      <path
+        class={draws && !s.spine ? 'fleck' : undefined}
+        style={draws && !s.spine ? `--i:${i}` : undefined}
+        d={s.d}
+        fill={`url(#${id})`}
+        opacity={s.opacity}
+        mask={draws && s.spine ? `url(#${id}m${i})` : undefined}
+      />
+    ))}
+  </g>
+</svg>

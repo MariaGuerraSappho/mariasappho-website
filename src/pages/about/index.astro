@@ -1,0 +1,70 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import photo from '../../assets/site/press-photo.jpg';
+import { site } from '../../data/site';
+import { awards, press, roles } from '../../data/press';
+---
+<Base title="About" description="Biography and contact details for Maria Sappho, artist, composer, improviser and researcher.">
+  <article class="entry">
+    <aside class="rail">
+      <h1>About</h1>
+      <ul class="rail-links">
+        <li><a href="#awards">Awards</a></li>
+        <li><a href="#press">Press</a></li>
+        <li><a href="/press/">Press kit</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href={site.newsletter} rel="noopener" target="_blank">Newsletter</a></li>
+      </ul>
+    </aside>
+    <div class="content">
+      <figure class="press-photo">
+        <Image src={photo} alt="Maria Guerra Sappho in profile against a black background, wearing beaded earrings" widths={[640, 1000, 1500]} sizes="(max-width: 900px) 100vw, 860px" loading="eager" />
+        <figcaption><a href="/press/maria-sappho-press-photo.jpg" download>Download press photo</a> · <a href="/press/">Press kit</a></figcaption>
+      </figure>
+      <div class="prose">
+        <p>Maria Guerra Sappho is an artist and researcher exploring techno-social communities, experimental instrument-building, and artificial intelligence in creative practice. Her work navigates diaspora, ecology, cultural memory, and postcolonial histories through posthuman feminist and techno-moral lenses.</p>
+        <p>She is {site.role}, and completed her PhD at the University of Huddersfield within the ERC-funded Interactive Research in Music as Sound (IRiMaS) project.</p>
+        <p>Maria leads the <a href="/work/syzygy/">Syzygy</a> project (Immersive Arts UK funded), a Mixed Reality-based ecological storytelling installation, and was Composer-in-Residence with the Bahué Duo (USA) in 2025, developing new work on diaspora and land. She co-founded <a href="/work/chimere-communities/">Chimère Communities</a>, establishing grassroots AI art hubs across Lesotho, South Africa, Switzerland, and the UK, and founded the <a href="https://undergroundintelligences.com" rel="noopener" target="_blank">Underground Intelligences</a> research network.</p>
+        <p>Internationally recognised as a composer and performer, she has performed with Mogwai and the International Contemporary Ensemble (USA), and is a long-serving member of the <a href={site.gio} rel="noopener" target="_blank">Glasgow Improvisers Orchestra</a>. Her recent works include <a href="/work/the-tentaculae/">The Tentaculae</a> (Creative Climate Award nominee, NYC), <a href="/work/the-ostoyae/">The Ostoyae</a> (UNESCO Week of Sound), and <a href="/work/zemi/">Zemi</a> (Huddersfield Contemporary Music Festival).</p>
+        <p>Her awards include the NIME Best Installation Award, the SHARE Prize (Italy), the BBC Daphne Oram Award (UK), the AiiA AI Prize (Switzerland), and the MANE Emerging Composer Prize (Australia). She is co-author of <a href="/research/new-directions/">New Directions in Musical Collaborative Creativity</a> (Oxford University Press, 2025), and her research has been published in leading journals across music, technology, and critical theory.</p>
+      </div>
+      <section class="linked" id="awards">
+        <h2>Awards</h2>
+        <ul class="plain">{awards.map((a) => <li>{a.href ? <a href={a.href} rel="noopener">{a.title}</a> : a.title}</li>)}</ul>
+      </section>
+      <section class="linked">
+        <h2>Roles</h2>
+        <ul class="plain">{roles.map((r) => <li>{r}</li>)}</ul>
+      </section>
+      <section class="linked" id="press">
+        <h2>Press</h2>
+        <ul class="press">
+          {press.map((p) => (
+            <li>
+              {p.url ? <a href={p.url} rel="noopener" target="_blank">{p.title}</a> : <em>{p.title}</em>}
+              <span>{[p.outlet, p.kind, p.date].filter(Boolean).join(' · ')}</span>
+              {p.quote && <q>{p.quote}</q>}
+            </li>
+          ))}
+        </ul>
+      </section>
+      <section class="linked" id="contact">
+        <h2>Contact</h2>
+        {site.contactFormKey ? (
+      <form class="contact" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value={site.contactFormKey} />
+        <input class="bot" type="checkbox" name="botcheck" tabindex="-1" aria-hidden="true" />
+        <label>Name <input name="name" required autocomplete="name" /></label>
+        <label>Email <input name="email" type="email" required autocomplete="email" /></label>
+        <label>Subject <input name="subject" /></label>
+        <label>Message <textarea name="message" rows="6" required></textarea></label>
+        <button class="btn" type="submit">Send</button>
+      </form>
+    ) : (
+      <p class="prose">Please get in touch through <a href={site.researchProfile} rel="noopener" target="_blank">my University of Glasgow profile</a>.</p>
+    )}
+      </section>
+    </div>
+  </article>
+</Base>

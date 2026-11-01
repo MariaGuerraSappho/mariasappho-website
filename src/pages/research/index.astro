@@ -1,0 +1,100 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Coauthors from '../../components/Coauthors.astro';
+import Filters from '../../components/Filters.astro';
+import { researchTypes, site, themes } from '../../data/site';
+import { academic, citedBy, fields, funders, metrics } from '../../data/metrics';
+import { currentProjects, talks } from '../../data/projects';
+
+const items = (await getCollection('research')).sort((a, b) => (b.data.year ?? 0) - (a.data.year ?? 0) || (citedBy[b.id] ?? 0) - (citedBy[a.id] ?? 0) || a.data.title.localeCompare(b.data.title));
+const usedTypes = Object.fromEntries(Object.entries(researchTypes).filter(([k]) => items.some((r) => r.data.type === k)));
+const usedThemes = Object.fromEntries(Object.entries(themes).filter(([k]) => items.some((r) => r.data.themes.includes(k))));
+const fingerprint = Object.entries(themes)
+  .map(([k, label]) => ({ label, n: items.filter((r) => r.data.themes.includes(k)).length }))
+  .filter((f) => f.n > 0).sort((a, b) => b.n - a.n);
+const counts = new Map<string, number>();
+for (const r of items) {
+  const names = [...r.data.authors.matchAll(/([A-ZÀ-Ý][\p{L}’'-]+(?: [A-Z][\p{L}]+)?), [A-Z]/gu)].map((m) => m[1].replace('De Nora', 'DeNora'));
+  for (const n of new Set(names)) if (n !== 'Sappho') counts.set(n, (counts.get(n) ?? 0) + 1);
+}
+const people = [...counts].map(([name, papers]) => ({ name, papers })).sort((a, b) => b.papers - a.papers).slice(0, 14);
+const link = (r: (typeof items)[number]) => `/research/${r.id}/`;
+---
+<Base title="Research" description="Publications, citations, projects, talks and funding for Dr Maria Sappho, Lecturer in Creative Sound Design and Composition, University of Glasgow.">
+  <h1 class="page-title">Research</h1>
+  <p class="research-role">{site.role}</p>
+  <p class="quiet-links profile-links">
+    <a href={site.orcid} rel="noopener" target="_blank">ORCID &nearr;</a>
+    <a href={site.scholar} rel="noopener" target="_blank">Google Scholar &nearr;</a>
+    <a href={site.researchProfile} rel="noopener" target="_blank">University of Glasgow &nearr;</a>
+  </p>
+
+  <h2 class="section-title">Current projects</h2>
+  <section class="lines" aria-label="Current projects">
+    {currentProjects.map((p) => (
+      <details>
+        <summary><span>{p.title}</span><span class="when">{p.when}</span></summary>
+        <p>{p.summary} {p.href && <a href={p.href} rel="noopener">More &nearr;</a>}</p>
+      </details>
+    ))}
+  </section>
+
+  <h2 class="section-title">Publications</h2>
+  <Filters search groups={[{ key: 'type', label: 'Filter by type', options: usedTypes, runes: true }, { key: 'theme', label: 'Filter by theme', options: usedThemes }]} />
+  <ol class="pubs">
+    {items.map((r) => (
+      <li data-filters={[r.data.type, ...r.data.themes].join(' ')} data-search={[r.data.title, r.data.authors, r.data.venue, r.data.year].join(' ').toLowerCase()}>
+        <span class="pub-year">{r.data.status === 'in-press' ? 'In press' : r.data.year}</span>
+        <div>
+          <a href={link(r)}>{r.data.title}</a>
+          <span>{r.data.authors}</span>
+          <span>{[r.data.venue, researchTypes[r.data.type as keyof typeof researchTypes]].filter(Boolean).join(' · ')}{r.data.doi && <> · <a class="doi" href={`https://doi.org/${r.data.doi}`} rel="noopener" target="_blank">DOI</a></>}</span>
+        </div>
+        {citedBy[r.id] && <span class="cited">{citedBy[r.id]} cited</span>}
+      </li>
+    ))}
+  </ol>
+
+  <h2 class="section-title talks-title">Talks</h2>
+  <ul class="press">
+    {talks.map((t) => (
+      <li>
+        {t.href ? <a href={t.href} rel="noopener" target="_blank">{t.title}{t.video && ' ▶'}</a> : <em>{t.title}</em>}
+        <span>{[t.where, t.year].filter(Boolean).join(' · ')}</span>
+      </li>
+    ))}
+  </ul>
+
+  <div class="academic-grid lower">
+    <section>
+      <h2 class="section-title">Positions and roles</h2>
+      <ul class="plain">{academic.map((a) => <li>{a}</li>)}</ul>
+    </section>
+    <section>
+      <h2 class="section-title">Funders</h2>
+      <ul class="plain">{funders.map((f) => <li>{f}</li>)}</ul>
+    </section>
+  </div>
+  <h2 class="section-title metrics-title">Research profile</h2>
+  <div class="stats">
+    <div><strong>{metrics.citations}</strong><span>Citations</span></div>
+    <div><strong>{metrics.hIndex}</strong><span>h-index</span></div>
+    <div><strong>{items.length}</strong><span>Publications listed</span></div>
+    <div><strong>{counts.size}</strong><span>Co-authors</span></div>
+  </div>
+  <p class="stats-note">Citations from Google Scholar, {metrics.asOf}.</p>
+  <div class="academic-grid">
+    <section>
+      <h2 class="section-title">Research fingerprint</h2>
+      <ul class="fingerprint">
+        {fingerprint.map((f) => <li><span>{f.label}</span><i style={`width:${(f.n / fingerprint[0].n) * 100}%`}></i><b>{f.n}</b></li>)}
+      </ul>
+      <p class="tags-line">{fields.join(' · ')}</p>
+    </section>
+    <section>
+      <h2 class="section-title">Network</h2>
+      <Coauthors people={people} />
+    </section>
+  </div>
+</Base>

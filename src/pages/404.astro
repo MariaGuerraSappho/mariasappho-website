@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import redirects from '../data/redirects.json';
+---
+<Base title="Page not found">
+  <h1 class="page-title">There’s nothing here</h1>
+  <p class="lede">This page has moved or no longer exists. <a href="/work/">Browse the work</a> or <a href="/">go home</a>.</p>
+  <script is:inline define:vars={{ redirects }}>
+    const path = decodeURI(location.pathname).replace(/\/$/, '');
+    const to = redirects[path] ?? redirects[location.pathname.replace(/\/$/, '')];
+    if (to) location.replace(to);
+  </script>
+</Base>

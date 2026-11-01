@@ -1,0 +1,12 @@
+---
+interface Props { title: string; audio?: string[] }
+const { title, audio = [] } = Astro.props;
+const src = (a: string) => a.includes('EmbeddedPlayer') ? a.split('#')[0]
+  : a.includes('soundcloud.com') ? `https://w.soundcloud.com/player/?url=${encodeURIComponent(a)}&color=%23a63a46&visual=false` : null;
+---
+{audio.map((a) => {
+  const s = src(a);
+  return s
+    ? <iframe class="audio" src={s} title={`Audio: ${title}`} loading="lazy" style={`height:${a.match(/#h=(\d+)/)?.[1] ?? 166}px`}></iframe>
+    : <p><a href={a} rel="noopener" target="_blank">Listen &nearr;</a></p>;
+})}

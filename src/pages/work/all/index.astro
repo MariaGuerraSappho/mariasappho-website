@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import Tile from '../../../components/Tile.astro';
+import Filters from '../../../components/Filters.astro';
+import WorkTabs from '../../../components/WorkTabs.astro';
+import { themes, workTypes } from '../../../data/site';
+
+const works = (await getCollection('works')).sort((a, b) => (b.data.year ?? 0) - (a.data.year ?? 0) || a.data.title.localeCompare(b.data.title));
+const research = await getCollection('research');
+const usedThemes = Object.fromEntries(Object.entries(themes).filter(([k]) => works.some((w) => w.data.themes.includes(k))));
+const words = (...parts: unknown[]) => parts.flat().filter(Boolean).join(' ').toLowerCase();
+---
+<Base title="All works" description="Every work by Maria Sappho, searchable and filterable by type and theme.">
+  <h1 class="page-title">Work</h1>
+  <WorkTabs current="all" />
+  <Filters search groups={[{ key: 'type', label: 'Filter by type', options: workTypes, runes: true }, { key: 'theme', label: 'Filter by theme', options: usedThemes }]} />
+  <div class="tiles">
+    {works.map((w) => (
+      <Tile href={`/work/${w.id}/`} title={w.data.title} kind={w.data.tags[0]} filters={[...w.data.tags, ...w.data.themes]}
+        search={words(w.data.title, w.data.subtitle, w.data.year, w.data.tags, w.data.themes, w.data.collaborations, (w.body ?? '').slice(0, 400))} />
+    ))}
+    {research.map((r) => (
+      <Tile href={`/research/${r.id}/`} title={r.data.title} kind={r.data.type} searchOnly filters={[...r.data.themes]}
+        search={words(r.data.title, r.data.authors, r.data.venue, r.data.year, r.data.themes, (r.body ?? '').slice(0, 300))} />
+    ))}
+  </div>
+</Base>

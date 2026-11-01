@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "site",
+      "runtimeExecutable": "/bin/zsh",
+      "runtimeArgs": ["-c", "PATH=$HOME/.local/bin:$PATH npx astro preview --port 4321"],
+      "port": 4321
+    }
+  ]
+}

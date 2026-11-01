@@ -1,0 +1,16 @@
+{
+  "name": "mariasappho-website",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@fontsource/playfair-display": "^5.3.0",
+    "@fontsource/poppins": "^5.3.0",
+    "@fontsource/questrial": "^5.3.0",
+    "astro": "^7.4.4"
+  }
+}

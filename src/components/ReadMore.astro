@@ -1,0 +1,16 @@
+<div class="prose" data-readmore><slot /></div>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-readmore]').forEach((prose) => {
+    if (prose.scrollHeight < 420) return;
+    prose.classList.add('collapsed');
+    const button = document.createElement('button');
+    button.className = 'read-more';
+    button.type = 'button';
+    button.textContent = 'Read more';
+    prose.after(button);
+    button.addEventListener('click', () => {
+      const open = prose.classList.toggle('collapsed');
+      button.textContent = open ? 'Read more' : 'Read less';
+    });
+  });
+</script>

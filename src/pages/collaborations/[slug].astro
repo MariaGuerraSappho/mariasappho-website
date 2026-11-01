@@ -1,0 +1,33 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Carousel from '../../components/Carousel.astro';
+import Entry from '../../components/Entry.astro';
+import Audio from '../../components/Audio.astro';
+import GoFurther from '../../components/GoFurther.astro';
+import ReadMore from '../../components/ReadMore.astro';
+import Tile from '../../components/Tile.astro';
+
+export async function getStaticPaths() {
+  return (await getCollection('collaborations')).map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+const works = (await getCollection('works')).filter((w) => w.data.collaborations.includes(entry.id));
+const images = d.cover ? [d.cover, ...d.gallery] : d.gallery;
+---
+<Base title={d.title} description={d.summary}>
+  <Entry title={d.title} subtitle={d.summary} kind="collaboration" seed={`/collaborations/${entry.id}/`} back={{ href: '/collaborations/', label: 'Collaborations' }}>
+    <Carousel title={d.title} videos={d.videos} images={images} />
+    <Audio title={d.title} audio={d.audio} />
+    <ReadMore><Content /></ReadMore>
+    <GoFurther links={d.links} />
+    {works.length > 0 && (
+      <section class="linked">
+        <h2>Work</h2>
+        <div class="tiles small">{works.map((w) => <Tile href={`/work/${w.id}/`} title={w.data.title} kind={w.data.tags[0]} />)}</div>
+      </section>
+    )}
+  </Entry>
+</Base>

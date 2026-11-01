@@ -1,0 +1,56 @@
+---
+import Gesture from './Gesture.astro';
+import { H, W, layout } from '../lib/network';
+interface Props { items: any[]; threads: { title: string; summary: string }[] }
+const { items, threads } = Astro.props;
+const { nodes, edges, hubs } = layout(items);
+---
+<div class="network" data-network style={`aspect-ratio:${W}/${H}`}>
+  <svg class="hyphae" viewBox={`0 0 ${W} ${H}`} aria-hidden="true">
+    <defs>
+      <linearGradient id="hypha" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1320" y2="900">
+        <stop offset="0" stop-color="#b79a3e" /><stop offset=".5" stop-color="#8a5f42" /><stop offset="1" stop-color="#7c2232" />
+      </linearGradient>
+      <filter id="rot"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="7" /><feDisplacementMap in="SourceGraphic" scale="6" /></filter>
+    </defs>
+    <g filter="url(#rot)">
+      {edges.map((e) => <path d={e.d} data-a={e.from} data-b={e.to} fill="url(#hypha)" />)}
+    </g>
+  </svg>
+  {threads.map((t, i) => (
+    <button class="hub" type="button" data-node={`hub${i}`} data-summary={t.summary} style={`left:${(hubs[i][0] / W) * 100}%;top:${(hubs[i][1] / H) * 100}%`}>{t.title}</button>
+  ))}
+  {nodes.map((n) => (
+    <a class="net-node" href={n.href} data-node={n.id} data-hubs={n.hubs.map((h) => `hub${h}`).join(' ')} style={`left:${(n.x / W) * 100}%;top:${(n.y / H) * 100}%`}>
+      <Gesture kind={n.kind} seed={n.href} draws />
+      <span>{n.title}</span>
+    </a>
+  ))}
+  <p class="net-caption" data-caption aria-live="polite"></p>
+</div>
+<script>
+  const net = document.querySelector<HTMLElement>('[data-network]');
+  if (net) {
+    const caption = net.querySelector<HTMLElement>('[data-caption]')!;
+    const paths = [...net.querySelectorAll<SVGPathElement>('.hyphae path')];
+    const points = [...net.querySelectorAll<HTMLElement>('[data-node]')];
+    const light = (id: string | null, summary = '') => {
+      net.classList.toggle('lit', Boolean(id));
+      caption.textContent = summary;
+      if (!id) { points.concat(paths as any).forEach((e) => e.classList.remove('on')); return; }
+      const near = new Set([id]);
+      paths.forEach((p) => {
+        const on = p.dataset.a === id || p.dataset.b === id;
+        p.classList.toggle('on', on);
+        if (on) { near.add(p.dataset.a!); near.add(p.dataset.b!); }
+      });
+      points.forEach((e) => e.classList.toggle('on', near.has(e.dataset.node!)));
+    };
+    for (const p of points) {
+      p.addEventListener('mouseenter', () => light(p.dataset.node!, p.dataset.summary ?? ''));
+      p.addEventListener('focus', () => light(p.dataset.node!, p.dataset.summary ?? ''));
+      p.addEventListener('mouseleave', () => light(null));
+      p.addEventListener('blur', () => light(null));
+    }
+  }
+</script>

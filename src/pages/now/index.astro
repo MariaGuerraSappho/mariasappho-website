@@ -1,0 +1,38 @@
+---
+import Base from '../../layouts/Base.astro';
+import { recent, upcoming } from '../../data/now';
+import { site } from '../../data/site';
+
+const external = (href?: string) => href?.startsWith('http') ? { target: '_blank', rel: 'noopener' } : {};
+---
+<Base title="Now" description="What Maria Sappho is working on now, and what's coming up.">
+  <h1 class="page-title">Now</h1>
+  <p class="now-news"><a href={site.newsletter} rel="noopener" target="_blank">Join the mailing list &nearr;</a></p>
+  <h2 class="section-title">Coming up</h2>
+  <ul class="events">
+    {upcoming.map((e) => (
+      <li>
+        <span class="event-when">{e.when}</span>
+        <div>
+          {e.href ? <a href={e.href} {...external(e.href)}>{e.title}</a> : <strong>{e.title}</strong>}
+          <span>{e.where}</span>
+          <p>{e.note}</p>
+          {e.links && <ul class="event-links">{e.links.map((l) => <li><a href={l.url} rel="noopener" target="_blank">{l.label} &nearr;</a></li>)}</ul>}
+        </div>
+      </li>
+    ))}
+  </ul>
+  <h2 class="section-title metrics-title">Recently</h2>
+  <ul class="events">
+    {recent.map((e) => (
+      <li>
+        <span class="event-when">{e.when}</span>
+        <div>
+          {e.href ? <a href={e.href} {...external(e.href)}>{e.title}</a> : <strong>{e.title}</strong>}
+          <span>{e.where}</span>
+          <p>{e.note}</p>
+        </div>
+      </li>
+    ))}
+  </ul>
+</Base>

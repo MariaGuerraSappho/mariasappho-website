@@ -1,0 +1,55 @@
+---
+import { Image } from 'astro:assets';
+interface Props { title: string; videos?: string[]; images?: any[] }
+const { title, videos = [], images = [] } = Astro.props;
+
+function videoEmbed(url: string) {
+  const yt = url.match(/(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:embed\/|watch\?v=))([\w-]{6,})/);
+  if (yt) return `https://www.youtube-nocookie.com/embed/${yt[1]}`;
+  const vimeo = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  return vimeo ? `https://player.vimeo.com/video/${vimeo[1]}` : null;
+}
+const embeds = videos.map(videoEmbed).filter(Boolean);
+const total = embeds.length + images.length;
+---
+{total > 0 && (
+  <section class="carousel" aria-roledescription="carousel" aria-label={title} tabindex="0">
+    <div class="track">
+      {embeds.map((src) => (
+        <div class="slide"><iframe src={src} title={`Video: ${title}`} loading="lazy" allow="fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+      ))}
+      {images.map((img, i) => (
+        <div class="slide">
+          <Image src={img} alt={title} widths={[640, 1000, 1500]} sizes="(max-width: 900px) 100vw, 860px" loading={i === 0 && embeds.length === 0 ? 'eager' : 'lazy'} />
+        </div>
+      ))}
+    </div>
+    {total > 1 && (
+      <div class="carousel-nav">
+        <button type="button" data-dir="-1" aria-label="Previous">&larr;</button>
+        <span data-pos>1 / {total}</span>
+        <button type="button" data-dir="1" aria-label="Next">&rarr;</button>
+      </div>
+    )}
+  </section>
+)}
+<script>
+  document.querySelectorAll<HTMLElement>('.carousel').forEach((c) => {
+    const track = c.querySelector<HTMLElement>('.track')!;
+    const pos = c.querySelector<HTMLElement>('[data-pos]');
+    const count = track.children.length;
+    const index = () => Math.round(track.scrollLeft / track.clientWidth);
+    const show = (i: number) => { if (pos) pos.textContent = `${i + 1} / ${count}`; };
+    const go = (i: number) => {
+      const next = (i + count) % count;
+      show(next);
+      track.scrollTo({ left: next * track.clientWidth, behavior: 'smooth' });
+    };
+    c.querySelectorAll<HTMLButtonElement>('[data-dir]').forEach((b) => b.addEventListener('click', () => go(index() + Number(b.dataset.dir))));
+    track.addEventListener('scrollend', () => show(index()));
+    c.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') go(index() + 1);
+      if (e.key === 'ArrowLeft') go(index() - 1);
+    });
+  });
+</script>

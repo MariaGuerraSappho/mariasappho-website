@@ -1,0 +1,21 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Tile from '../../components/Tile.astro';
+import { themes } from '../../data/site';
+
+export function getStaticPaths() {
+  return Object.entries(themes).map(([theme, label]) => ({ params: { theme }, props: { label } }));
+}
+const { theme } = Astro.params;
+const { label } = Astro.props;
+const works = (await getCollection('works')).filter((w) => w.data.themes.includes(theme)).sort((a, b) => (b.data.year ?? 0) - (a.data.year ?? 0));
+const research = (await getCollection('research')).filter((r) => r.data.themes.includes(theme)).sort((a, b) => (b.data.year ?? 0) - (a.data.year ?? 0));
+---
+<Base title={label} description={`Work and research by Maria Sappho on ${label}.`}>
+  <h1 class="page-title">{label}</h1>
+  <div class="tiles">
+    {works.map((w) => <Tile href={`/work/${w.id}/`} title={w.data.title} kind={w.data.tags[0]} />)}
+    {research.map((r) => <Tile href={`/research/${r.id}/`} title={r.data.title} kind={r.data.type} />)}
+  </div>
+</Base>

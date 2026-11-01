@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Network from '../../components/Network.astro';
+import Tile from '../../components/Tile.astro';
+import WorkTabs from '../../components/WorkTabs.astro';
+import { threads } from '../../data/threads';
+
+const works = await getCollection('works');
+const research = await getCollection('research');
+const groups = threads.map((t) => ({
+  ...t,
+  works: t.works.map((id) => works.find((w) => w.id === id)).filter(Boolean),
+  research: t.research.map((id) => research.find((r) => r.id === id)).filter(Boolean),
+}));
+const items = new Map<string, any>();
+groups.forEach((t, hub) => {
+  for (const w of t.works) {
+    const n = items.get(w!.id) ?? { id: w!.id, href: `/work/${w!.id}/`, title: w!.data.title, kind: w!.data.tags[0], hubs: [] };
+    n.hubs.push(hub);
+    items.set(w!.id, n);
+  }
+  for (const r of t.research) {
+    items.set(r!.id, { id: r!.id, href: `/research/${r!.id}/`, title: r!.data.title.split(':')[0], kind: r!.data.type, hubs: [hub] });
+  }
+});
+---
+<Base title="Work" description="A map of Maria Sappho's highlighted work, connected across five threads.">
+  <h1 class="page-title">Work</h1>
+  <WorkTabs current="highlights" />
+  <Network items={[...items.values()]} threads={threads} />
+  <div class="thread-list">
+    {groups.map((t) => (
+      <section class="thread">
+        <div class="thread-head">
+          <h2>{t.title}</h2>
+          <p>{t.summary}</p>
+        </div>
+        <div class="tiles small">
+          {t.works.map((w) => <Tile href={`/work/${w!.id}/`} title={w!.data.title} kind={w!.data.tags[0]} />)}
+          {t.research.map((r) => <Tile href={`/research/${r!.id}/`} title={r!.data.title} kind={r!.data.type} />)}
+        </div>
+      </section>
+    ))}
+  </div>
+</Base>

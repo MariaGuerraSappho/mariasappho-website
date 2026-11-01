@@ -1,0 +1,53 @@
+---
+import { Image } from 'astro:assets';
+import photo from '../../assets/site/press-photo.jpg';
+import { awards } from '../../data/press';
+import { bios, quotes, selected } from '../../data/presskit';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>Maria Guerra Sappho, one-page summary</title>
+    <style>
+      @import '@fontsource/playfair-display/400.css';
+      @import '@fontsource/questrial/400.css';
+      @page { size: A4; margin: 0; }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; background: #0b0908; color: #e9e1d6; font: 10.5pt/1.5 'Questrial', sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      main { width: 210mm; height: 296mm; padding: 14mm 15mm; display: grid; grid-template-rows: auto auto 1fr auto; gap: 7mm; overflow: hidden; }
+      h1 { font: 400 30pt/1.1 'Playfair Display', serif; margin: 0; }
+      h2 { font: 400 13pt/1.2 'Playfair Display', serif; color: #d9c9ae; margin: 0 0 2mm; }
+      .role { color: #978c80; margin: 1mm 0 0; }
+      img { width: 100%; height: 60mm; object-fit: cover; object-position: 60% 20%; display: block; }
+      p { margin: 0; }
+      .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; align-content: start; }
+      ul { list-style: none; margin: 0 0 5mm; padding: 0; }
+      li { padding: .4mm 0; }
+      blockquote { margin: 0 0 2.5mm; font: 11.5pt/1.35 'Playfair Display', serif; }
+      cite { display: block; font: normal 8.5pt 'Questrial', sans-serif; color: #978c80; }
+      footer { display: flex; justify-content: space-between; color: #978c80; font-size: 9pt; border-top: .3mm solid #2a2420; padding-top: 3mm; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header><h1>Maria Guerra Sappho</h1><p class="role">Artist, composer, improviser and researcher</p></header>
+      <Image src={photo} alt="" widths={[1400]} sizes="210mm" />
+      <div class="cols">
+        <section>
+          <h2>Biography</h2>
+          <p>{bios[1].text}</p>
+        </section>
+        <section>
+          <h2>Selected work</h2>
+          <ul>{selected.map((s) => <li>{s}</li>)}</ul>
+          <h2>Awards</h2>
+          <ul>{awards.slice(0, 6).map((a) => <li>{a.title}</li>)}</ul>
+          {quotes.slice(0, 2).map((q) => <blockquote>&ldquo;{q.text}&rdquo;<cite>{q.source}</cite></blockquote>)}
+        </section>
+      </div>
+      <footer><span>mariasappho.com</span><span>Contact via University of Glasgow profile</span></footer>
+    </main>
+  </body>
+</html>

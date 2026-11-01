@@ -1,0 +1,47 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Carousel from '../../components/Carousel.astro';
+import Entry from '../../components/Entry.astro';
+import GoFurther from '../../components/GoFurther.astro';
+import ReadMore from '../../components/ReadMore.astro';
+import Tile from '../../components/Tile.astro';
+import { researchTypes, themes } from '../../data/site';
+
+export async function getStaticPaths() {
+  return (await getCollection('research')).map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+const link = d.url ?? (d.doi ? `https://doi.org/${d.doi}` : undefined);
+const works = (await getCollection('works')).filter((w) => d.works.includes(w.id) || w.data.research.includes(entry.id));
+const label = researchTypes[d.type as keyof typeof researchTypes];
+const citation = `${d.authors} (${d.status === 'in-press' ? 'in press' : d.year ?? 'n.d.'}). ${d.title}.${d.venue ? ` ${d.venue}.` : ''}${d.doi ? ` https://doi.org/${d.doi}` : ''}`;
+---
+<Base title={d.title} description={`${label} by ${d.authors}`}>
+  <Entry title={d.title} subtitle={d.authors} meta={[d.status === 'in-press' ? 'In press' : d.year, label, d.venue].filter(Boolean).join(' · ')} kind={d.type} seed={`/research/${entry.id}/`} back={{ href: '/research/', label: 'Research' }}>
+    <Fragment slot="rail">
+      <ul class="rail-links">
+        <li><button type="button" data-cite={citation}>Copy citation</button></li>
+      </ul>
+      <p class="rail-tags">{d.themes.map((t) => <a href={`/themes/${t}/`}>{themes[t as keyof typeof themes]}</a>)}</p>
+    </Fragment>
+    <Carousel title={d.title} videos={d.videos} />
+    <ReadMore><Content /></ReadMore>
+    <GoFurther links={[...(link ? [{ label: `Read ${label ? label.toLowerCase() : ''}`.trim(), url: link }] : []), ...d.links]} />
+    {works.length > 0 && (
+      <section class="linked">
+        <h2>From the practice</h2>
+        <div class="tiles small">{works.map((w) => <Tile href={`/work/${w.id}/`} title={w.data.title} kind={w.data.tags[0]} />)}</div>
+      </section>
+    )}
+  </Entry>
+</Base>
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-cite]').forEach((b) => b.addEventListener('click', async () => {
+    await navigator.clipboard.writeText(b.dataset.cite!);
+    b.textContent = 'Copied';
+    setTimeout(() => (b.textContent = 'Copy citation'), 1600);
+  }));
+</script>

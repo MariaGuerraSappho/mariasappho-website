@@ -1,0 +1,50 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Carousel from '../../components/Carousel.astro';
+import Entry from '../../components/Entry.astro';
+import Audio from '../../components/Audio.astro';
+import GoFurther from '../../components/GoFurther.astro';
+import ReadMore from '../../components/ReadMore.astro';
+import Tile from '../../components/Tile.astro';
+import { themes, workTypes } from '../../data/site';
+
+export async function getStaticPaths() {
+  return (await getCollection('works')).map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+const research = (await getCollection('research')).filter((r) => r.data.works.includes(entry.id) || d.research.includes(r.id));
+const all = await getCollection('works');
+const related = all.filter((w) => w.id !== entry.id && (d.related.includes(w.id) || w.data.related.includes(entry.id)));
+const collabs = (await Promise.all(d.collaborations.map((c) => getEntry('collaborations', c)))).filter(Boolean);
+const images = d.tags[0] === 'score' ? [] : d.cover ? [d.cover, ...d.gallery] : d.gallery;
+---
+<Base title={d.title} description={d.subtitle ?? `${d.title} by Maria Sappho`}>
+  <Entry title={d.title} subtitle={d.subtitle} meta={d.year?.toString()} kind={d.tags[0]} seed={`/work/${entry.id}/`} back={{ href: '/work/', label: 'Work' }} stage={images.length === 0 && d.videos.length === 0}>
+    <Fragment slot="rail">
+      <p class="rail-tags">
+        {d.tags.map((t) => <a href={`/work/all/?type=${t}`}>{workTypes[t as keyof typeof workTypes]}</a>)}
+        {d.themes.map((t) => <a href={`/themes/${t}/`}>{themes[t as keyof typeof themes]}</a>)}
+        {collabs.map((c) => <a href={`/collaborations/${c!.id}/`}>{c!.data.title}</a>)}
+      </p>
+    </Fragment>
+    <Carousel title={d.title} videos={d.videos} images={images} />
+    <Audio title={d.title} audio={d.audio} />
+    <ReadMore><Content /></ReadMore>
+    <GoFurther links={d.links} />
+    {research.length > 0 && (
+      <section class="linked">
+        <h2>Related research</h2>
+        <div class="tiles small">{research.map((r) => <Tile href={`/research/${r.id}/`} title={r.data.title} kind={r.data.type} />)}</div>
+      </section>
+    )}
+    {related.length > 0 && (
+      <section class="linked">
+        <h2>Related work</h2>
+        <div class="tiles small">{related.map((w) => <Tile href={`/work/${w.id}/`} title={w.data.title} kind={w.data.tags[0]} />)}</div>
+      </section>
+    )}
+  </Entry>
+</Base>

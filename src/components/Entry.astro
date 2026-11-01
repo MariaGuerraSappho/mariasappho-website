@@ -1,0 +1,19 @@
+---
+import Gesture from './Gesture.astro';
+interface Props { title: string; subtitle?: string; meta?: string; kind: string; seed: string; back: { href: string; label: string }; stage?: boolean }
+const { title, subtitle, meta, kind, seed, back, stage = false } = Astro.props;
+---
+<article class="entry">
+  <aside class="rail">
+    <a class="back" href={back.href}>&larr; {back.label}</a>
+    {!stage && <Gesture kind={kind} seed={seed} class="rail-gesture" draws />}
+    <h1>{title}</h1>
+    {subtitle && <p class="sub">{subtitle}</p>}
+    {meta && <p class="meta">{meta}</p>}
+    <slot name="rail" />
+  </aside>
+  <div class="content">
+    {stage && <Gesture kind={kind} seed={seed} class="stage-gesture" draws />}
+    <slot />
+  </div>
+</article>

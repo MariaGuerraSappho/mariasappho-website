@@ -1,0 +1,59 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import photo from '../../assets/site/press-photo.jpg';
+import { awards, press } from '../../data/press';
+import { bios, quotes } from '../../data/presskit';
+import { site } from '../../data/site';
+---
+<Base title="Press kit" description="Biographies, press photo, quotes and contact for Maria Sappho.">
+  <h1 class="page-title">Press kit</h1>
+  <div class="press-kit">
+    <section>
+      <figure class="press-photo">
+        <Image src={photo} alt="Maria Guerra Sappho in profile against a black background, wearing beaded earrings" widths={[640, 1000, 1500]} sizes="(max-width: 900px) 100vw, 640px" />
+      </figure>
+      <div class="kit-downloads">
+        <a href="/press/maria-sappho-press-photo.jpg" download><span>Press photo (JPG)</span><span aria-hidden="true">&darr;</span></a>
+        <a href="/press/maria-sappho-one-sheet.pdf" download><span>One-page summary (PDF)</span><span aria-hidden="true">&darr;</span></a>
+      </div>
+    </section>
+    <section>
+      <h2 class="section-title first">Quotes</h2>
+      {quotes.map((q) => (
+        <blockquote class="kit-quote"><q>{q.text}</q><a href={q.href} rel="noopener" target="_blank">{q.source}</a></blockquote>
+      ))}
+    </section>
+  </div>
+
+  <h2 class="section-title metrics-title">Biographies</h2>
+  <div class="bios">
+    {bios.map((b) => (
+      <article>
+        <header><h3>{b.label}</h3><button type="button" data-copy={b.text}>Copy</button></header>
+        {b.text.split('\n\n').map((p) => <p>{p}</p>)}
+      </article>
+    ))}
+  </div>
+
+  <div class="academic-grid lower">
+    <section>
+      <h2 class="section-title">Awards</h2>
+      <ul class="plain">{awards.map((a) => <li>{a.href ? <a href={a.href} rel="noopener">{a.title}</a> : a.title}</li>)}</ul>
+    </section>
+    <section>
+      <h2 class="section-title">Selected coverage</h2>
+      <ul class="plain">{press.filter((p) => p.url).slice(0, 7).map((p) => <li><a href={p.url} rel="noopener" target="_blank">{p.outlet}</a></li>)}</ul>
+    </section>
+  </div>
+
+  <h2 class="section-title">Contact</h2>
+  <p class="prose">For press, bookings and commissions, please get in touch through <a href={site.researchProfile} rel="noopener" target="_blank">my University of Glasgow profile</a>. Technical specifications are available on request.</p>
+</Base>
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((b) => b.addEventListener('click', async () => {
+    await navigator.clipboard.writeText(b.dataset.copy!);
+    b.textContent = 'Copied';
+    setTimeout(() => (b.textContent = 'Copy'), 1600);
+  }));
+</script>
