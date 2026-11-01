@@ -26,7 +26,7 @@ const score = links.find((l) => /score/i.test(l.label));
 const typeLabel = (t: string) => (t === 'score' ? 'All scores' : workTypes[t as keyof typeof workTypes]);
 const images = d.tags[0] === 'score' && !d.scoreRequest ? [] : d.cover ? [d.cover, ...d.gallery] : d.gallery;
 ---
-<Base title={d.title} description={d.subtitle ?? `${d.title} by Maria Sappho`}>
+<Base title={d.title} description={d.subtitle ? `${d.title} by Maria Sappho: ${d.subtitle}` : `${d.title} by Maria Sappho`} ogImage={d.cover?.src}>
   <Entry title={d.title} subtitle={d.subtitle} meta={d.year?.toString()} kind={d.tags[0]} seed={`/work/${entry.id}/`} trail={[{ href: '/work/', label: 'Work' }, { href: `/work/all/?type=${d.tags[0]}`, label: typeLabel(d.tags[0]) }]} stage={images.length === 0 && d.videos.length === 0}>
     <Fragment slot="rail">
       {score && <ul class="rail-links"><li><a href={score.url} rel="noopener" target={d.scoreRequest ? undefined : '_blank'}>{d.scoreRequest ? request.label : 'Open the score'}</a></li></ul>}

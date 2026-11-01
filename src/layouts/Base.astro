@@ -1,12 +1,25 @@
 ---
 import '../styles/global.css';
-import { nav, site } from '../data/site';
+import { nav, site, socials } from '../data/site';
 import Socials from '../components/Socials.astro';
 
 interface Props { title?: string; description?: string; onHero?: boolean; ogImage?: string }
-const { title, description = site.description, onHero = false, ogImage } = Astro.props;
-const pageTitle = title ? `${title} | ${site.name}` : `${site.name} | Improviser`;
+const { title, description = site.description, onHero = false, ogImage = '/press/maria-sappho-press-photo.jpg' } = Astro.props;
+const pageTitle = title ? `${title} | ${site.name}` : `${site.name} | Improviser, composer and researcher`;
 const path = Astro.url.pathname;
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  alternateName: 'Maria Guerra Sappho',
+  url: Astro.site,
+  image: new URL('/press/maria-sappho-press-photo.jpg', Astro.site),
+  description: site.description,
+  jobTitle: site.role.split(',')[0],
+  worksFor: { '@type': 'CollegeOrUniversity', name: 'University of Glasgow' },
+  award: site.award,
+  sameAs: [site.orcid, site.scholar, site.researchProfile, ...socials.map((s) => s.href)],
+};
 ---
 <!doctype html>
 <html lang="en">
@@ -21,7 +34,12 @@ const path = Astro.url.pathname;
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
-    {ogImage && <meta property="og:image" content={new URL(ogImage, Astro.site)} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:url" content={new URL(path, Astro.site)} />
+    <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {path === '/' && <script is:inline type="application/ld+json" set:html={JSON.stringify(person)} />}
     <slot name="head" />
     <script is:inline>document.documentElement.classList.add('js');</script>
   </head>
