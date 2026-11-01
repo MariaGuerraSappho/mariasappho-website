@@ -14,7 +14,7 @@ The Mushroom Opera is a collection of texts, thoughts, and wonderings on the sub
 
 I. The Primordial 
 
-Soup Taking us back to the dawn of time, science has envisioned the origins of mushrooms and our evolution as living species on this planet we call home. <https://www.smithsonianmag.com/smart-...> 
+Soup Taking us back to the dawn of time, science has envisioned the origins of mushrooms and our evolution as living species on this planet we call home. 
 
 II. Mushroom Religion 
 
@@ -26,7 +26,7 @@ Selections from Terence McKenna quotes on his thoughts and conversations with mu
 
 IV. John Cage and the mushroom competition 
 
-In 1959 John Cage wins a competition with his extensive knowledge about mushrooms in Milan <http://www.johncage.it/en/1959-lascia...> 
+In 1959 John Cage wins a competition with his extensive knowledge about mushrooms in Milan 
 
 V. Mushrooms against capitalism 
 

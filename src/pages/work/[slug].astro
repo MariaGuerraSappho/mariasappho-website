@@ -19,13 +19,16 @@ const research = (await getCollection('research')).filter((r) => r.data.works.in
 const all = await getCollection('works');
 const related = all.filter((w) => w.id !== entry.id && (d.related.includes(w.id) || w.data.related.includes(entry.id)));
 const collabs = (await Promise.all(d.collaborations.map((c) => getEntry('collaborations', c)))).filter(Boolean);
+const score = d.links.find((l) => /score/i.test(l.label));
+const typeLabel = (t: string) => (t === 'score' ? 'All scores' : workTypes[t as keyof typeof workTypes]);
 const images = d.tags[0] === 'score' ? [] : d.cover ? [d.cover, ...d.gallery] : d.gallery;
 ---
 <Base title={d.title} description={d.subtitle ?? `${d.title} by Maria Sappho`}>
-  <Entry title={d.title} subtitle={d.subtitle} meta={d.year?.toString()} kind={d.tags[0]} seed={`/work/${entry.id}/`} trail={[{ href: '/work/', label: 'Work' }, { href: `/work/all/?type=${d.tags[0]}`, label: workTypes[d.tags[0] as keyof typeof workTypes] }]} stage={images.length === 0 && d.videos.length === 0}>
+  <Entry title={d.title} subtitle={d.subtitle} meta={d.year?.toString()} kind={d.tags[0]} seed={`/work/${entry.id}/`} trail={[{ href: '/work/', label: 'Work' }, { href: `/work/all/?type=${d.tags[0]}`, label: typeLabel(d.tags[0]) }]} stage={images.length === 0 && d.videos.length === 0}>
     <Fragment slot="rail">
+      {score && <ul class="rail-links"><li><a href={score.url} rel="noopener" target="_blank">{score.url.endsWith('.pdf') ? 'Open the score (PDF)' : 'Open the score'}</a></li></ul>}
       <p class="rail-tags">
-        {d.tags.map((t) => <a href={`/work/all/?type=${t}`}>{workTypes[t as keyof typeof workTypes]}</a>)}
+        {d.tags.map((t) => <a href={`/work/all/?type=${t}`}>{typeLabel(t)}</a>)}
         {d.themes.filter((t) => !(t === 'instruments' && d.tags.includes('instrument'))).map((t) => <a href={`/themes/${t}/`}>{themes[t as keyof typeof themes]}</a>)}
         {collabs.map((c) => <a href={`/collaborations/${c!.id}/`}>{c!.data.title}</a>)}
       </p>
