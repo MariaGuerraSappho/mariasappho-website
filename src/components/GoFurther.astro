@@ -4,6 +4,6 @@ const { links } = Astro.props;
 ---
 {links.length > 0 && (
   <nav class="go-further" aria-label="Go further">
-    {links.map((l) => <a href={l.url} rel="noopener" target={l.url.startsWith('/') && !l.url.endsWith('.pdf') ? undefined : '_blank'}><span>{l.label}</span><span aria-hidden="true">&nearr;</span></a>)}
+    {links.map((l) => <a href={l.url} rel="noopener" target={l.url.startsWith('/') || l.url.startsWith('mailto:') ? undefined : '_blank'}><span>{l.label}</span><span aria-hidden="true">&nearr;</span></a>)}
   </nav>
 )}

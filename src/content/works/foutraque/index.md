@@ -1,4 +1,5 @@
 ---
+scoreRequest: true
 title: "Foutraque"
 subtitle: "Noisebringers with Rachel Joy Weiss for the Glasgow Improvisers Orchestra"
 year: 2021
@@ -7,7 +8,7 @@ themes: ["telematic", "improvisation"]
 collaborations: ["noisebringers", "glasgow-improvisers-orchestra"]
 cover: "./01.jpg"
 videos: ["https://www.youtube.com/watch?v=CwPWGwdO7aA", "https://www.youtube.com/watch?v=ZOjOvJnlT7Q"]
-links: [{"label": "Score (PDF)", "url": "/scores/foutraque.pdf"}, {"label": "Noisebringers page", "url": "https://noisebringers.com/foutraque/"}]
+links: [{"label": "Noisebringers page", "url": "https://noisebringers.com/foutraque/"}]
 oldPaths: ["/projects/foutraque-"]
 related: ["concerto-for-virtualities-and-orchestra", "high-road-low-road", "gio-20-20", "taxi-for-purse"]
 ---

@@ -22,6 +22,7 @@ const works = defineCollection({
     related: z.array(z.string()).default([]),
     cover: image().optional(),
     gallery: z.array(image()).default([]),
+    scoreRequest: z.boolean().default(false),
     ...media,
   }),
 });

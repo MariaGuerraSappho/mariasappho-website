@@ -9,6 +9,7 @@ export const site = {
   newsletter: 'https://eepurl.com/ipSd6k',
   gio: 'https://www.glasgowimprovisersorchestra.com',
   researchProfile: 'https://www.gla.ac.uk/schools/cca/staff/mariasappho/',
+  email: 'Maria.Sappho@glasgow.ac.uk',
   role: 'Lecturer in Creative Sound Design and Composition (Music), University of Glasgow',
 };
 

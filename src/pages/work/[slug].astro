@@ -7,7 +7,7 @@ import Audio from '../../components/Audio.astro';
 import GoFurther from '../../components/GoFurther.astro';
 import ReadMore from '../../components/ReadMore.astro';
 import Tile from '../../components/Tile.astro';
-import { themes, workTypes } from '../../data/site';
+import { site, themes, workTypes } from '../../data/site';
 
 export async function getStaticPaths() {
   return (await getCollection('works')).map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
@@ -19,14 +19,17 @@ const research = (await getCollection('research')).filter((r) => r.data.works.in
 const all = await getCollection('works');
 const related = all.filter((w) => w.id !== entry.id && (d.related.includes(w.id) || w.data.related.includes(entry.id)));
 const collabs = (await Promise.all(d.collaborations.map((c) => getEntry('collaborations', c)))).filter(Boolean);
-const score = d.links.find((l) => /score/i.test(l.label));
+const requestBody = `Hello Maria,\n\nI would like to request the full score of ${d.title}.\n\nName:\nEnsemble or institution:\nFor (perusal, performance, study or teaching):\nPerformance date, venue and city, if known:\n`;
+const request = { label: 'Request the full score', url: `mailto:${site.email}?subject=${encodeURIComponent(`Score request: ${d.title}`)}&body=${encodeURIComponent(requestBody)}` };
+const links = d.scoreRequest ? [request, ...d.links] : d.links;
+const score = links.find((l) => /score/i.test(l.label));
 const typeLabel = (t: string) => (t === 'score' ? 'All scores' : workTypes[t as keyof typeof workTypes]);
-const images = d.tags[0] === 'score' ? [] : d.cover ? [d.cover, ...d.gallery] : d.gallery;
+const images = d.tags[0] === 'score' && !d.scoreRequest ? [] : d.cover ? [d.cover, ...d.gallery] : d.gallery;
 ---
 <Base title={d.title} description={d.subtitle ?? `${d.title} by Maria Sappho`}>
   <Entry title={d.title} subtitle={d.subtitle} meta={d.year?.toString()} kind={d.tags[0]} seed={`/work/${entry.id}/`} trail={[{ href: '/work/', label: 'Work' }, { href: `/work/all/?type=${d.tags[0]}`, label: typeLabel(d.tags[0]) }]} stage={images.length === 0 && d.videos.length === 0}>
     <Fragment slot="rail">
-      {score && <ul class="rail-links"><li><a href={score.url} rel="noopener" target="_blank">{score.url.endsWith('.pdf') ? 'Open the score (PDF)' : 'Open the score'}</a></li></ul>}
+      {score && <ul class="rail-links"><li><a href={score.url} rel="noopener" target={d.scoreRequest ? undefined : '_blank'}>{d.scoreRequest ? request.label : 'Open the score'}</a></li></ul>}
       <p class="rail-tags">
         {d.tags.map((t) => <a href={`/work/all/?type=${t}`}>{typeLabel(t)}</a>)}
         {d.themes.filter((t) => !(t === 'instruments' && d.tags.includes('instrument'))).map((t) => <a href={`/themes/${t}/`}>{themes[t as keyof typeof themes]}</a>)}
@@ -36,7 +39,7 @@ const images = d.tags[0] === 'score' ? [] : d.cover ? [d.cover, ...d.gallery] : 
     <Carousel title={d.title} videos={d.videos} images={images} />
     <Audio title={d.title} audio={d.audio} />
     <ReadMore><Content /></ReadMore>
-    <GoFurther links={d.links} />
+    <GoFurther links={links} />
     {research.length > 0 && (
       <section class="linked">
         <h2>Related research</h2>
