@@ -18,7 +18,7 @@ const person = {
   jobTitle: site.role.split(',')[0],
   worksFor: { '@type': 'CollegeOrUniversity', name: 'University of Glasgow' },
   award: site.award,
-  sameAs: [site.orcid, site.scholar, site.researchProfile, ...socials.map((s) => s.href)],
+  sameAs: ['https://www.wikidata.org/wiki/Q141843977', site.orcid, site.scholar, site.researchProfile, ...socials.map((s) => s.href)],
 };
 ---
 <!doctype html>
