@@ -3,8 +3,8 @@ import '../styles/global.css';
 import { nav, site, socials } from '../data/site';
 import Socials from '../components/Socials.astro';
 
-interface Props { title?: string; description?: string; onHero?: boolean; ogImage?: string }
-const { title, description = site.description, onHero = false, ogImage = '/press/maria-sappho-press-photo.jpg' } = Astro.props;
+interface Props { title?: string; description?: string; onHero?: boolean; ogImage?: string; hidden?: boolean }
+const { title, description = site.description, onHero = false, ogImage = '/press/maria-sappho-press-photo.jpg', hidden = false } = Astro.props;
 const pageTitle = title ? `${title} | ${site.name}` : `${site.name} | Improviser, composer and researcher`;
 const path = Astro.url.pathname;
 const person = {
@@ -28,6 +28,7 @@ const person = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
+    {hidden && <meta name="robots" content="noindex, nofollow" />}
     <meta name="google-site-verification" content="Bir26dwwAgqkM-regYclrga2jy-t3iFizatsjZ5J8RM" />
     <link rel="canonical" href={new URL(path, Astro.site)} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />

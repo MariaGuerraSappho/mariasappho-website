@@ -1,0 +1,26 @@
+---
+// Unlisted: shared only with people at SOUND/IMAGE 2026. Not linked anywhere on the site or in the sitemap.
+import Base from '../../../layouts/Base.astro';
+const here = Astro.url.pathname;
+---
+<Base title="SYZYGY: Mixed realities?" description="Slides from SOUND/IMAGE 2026, by Maria Sappho and Colin Frank." hidden>
+  <article class="entry">
+    <aside class="rail">
+      <p class="meta">SOUND/IMAGE 2026</p>
+      <h1>SYZYGY: Mixed realities?</h1>
+      <p class="sub">Posthuman immigration, staying foreign, and walking worlds into being</p>
+      <p class="meta">Maria Sappho and Colin Frank</p>
+    </aside>
+    <div class="content">
+      <p>Thank you for coming. Here are the slides from our presentation, with the full references.</p>
+      <nav class="go-further" aria-label="Slides and more">
+        <a href={`${here}syzygy-sound-image-2026-sappho-frank.pdf`} target="_blank" rel="noopener"><span>Open the slides (PDF, 34 pages)</span><span aria-hidden="true">&nearr;</span></a>
+        <a href="/work/syzygy/"><span>About SYZYGY</span><span aria-hidden="true">&rarr;</span></a>
+        <a href="/research/"><span>Maria’s research and publications</span><span aria-hidden="true">&rarr;</span></a>
+        <a href="https://colinfranksounding.com" target="_blank" rel="noopener"><span>Colin Frank</span><span aria-hidden="true">&nearr;</span></a>
+        <a href="https://eepurl.com/ipSd6k" target="_blank" rel="noopener"><span>Newsletter</span><span aria-hidden="true">&nearr;</span></a>
+      </nav>
+      <p class="meta">Please don’t share this page publicly: it is meant for people who attended.</p>
+    </div>
+  </article>
+</Base>
