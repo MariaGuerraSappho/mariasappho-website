@@ -1,8 +1,12 @@
 ---
 import { Image } from 'astro:assets';
+import '@fontsource/playfair-display/400.css';
+import '@fontsource/questrial/400.css';
 import photo from '../../assets/site/press-photo.jpg';
+import piano from '../../assets/site/press-photo-piano.jpg';
 import { awards } from '../../data/press';
 import { bios, quotes, selected } from '../../data/presskit';
+import { site } from '../../data/site';
 ---
 <!doctype html>
 <html lang="en">
@@ -11,8 +15,6 @@ import { bios, quotes, selected } from '../../data/presskit';
     <meta name="robots" content="noindex" />
     <title>Maria Guerra Sappho, one-page summary</title>
     <style>
-      @import '@fontsource/playfair-display/400.css';
-      @import '@fontsource/questrial/400.css';
       @page { size: A4; margin: 0; }
       * { box-sizing: border-box; }
       html, body { margin: 0; background: #0b0908; color: #e9e1d6; font: 10.5pt/1.5 'Questrial', sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -20,8 +22,9 @@ import { bios, quotes, selected } from '../../data/presskit';
       h1 { font: 400 30pt/1.1 'Playfair Display', serif; margin: 0; }
       h2 { font: 400 13pt/1.2 'Playfair Display', serif; color: #d9c9ae; margin: 0 0 2mm; }
       .role { color: #978c80; margin: 1mm 0 0; }
-      img { width: 100%; height: 60mm; object-fit: cover; object-position: 60% 20%; display: block; }
+      img.hero { width: 100%; height: 60mm; object-fit: cover; object-position: 60% 20%; display: block; }
       p { margin: 0; }
+      img.side { width: 100%; height: auto; display: block; margin-top: 6mm; }
       .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; align-content: start; }
       ul { list-style: none; margin: 0 0 5mm; padding: 0; }
       li { padding: .4mm 0; }
@@ -33,11 +36,12 @@ import { bios, quotes, selected } from '../../data/presskit';
   <body>
     <main>
       <header><h1>Maria Guerra Sappho</h1><p class="role">Artist, composer, improviser and researcher</p></header>
-      <Image src={photo} alt="" widths={[1400]} sizes="210mm" />
+      <Image src={photo} alt="" widths={[1400]} sizes="210mm" class="hero" />
       <div class="cols">
         <section>
           <h2>Biography</h2>
           <p>{bios[1].text}</p>
+          <Image src={piano} alt="" widths={[900]} sizes="85mm" class="side" />
         </section>
         <section>
           <h2>Selected work</h2>
@@ -47,7 +51,7 @@ import { bios, quotes, selected } from '../../data/presskit';
           {quotes.slice(0, 2).map((q) => <blockquote>&ldquo;{q.text}&rdquo;<cite>{q.source}</cite></blockquote>)}
         </section>
       </div>
-      <footer><span>mariasappho.com</span><span>Contact via University of Glasgow profile</span></footer>
+      <footer><span>mariasappho.com</span><span>{site.email}</span></footer>
     </main>
   </body>
 </html>
