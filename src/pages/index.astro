@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Gesture from '../components/Gesture.astro';
 import Socials from '../components/Socials.astro';
+import Monogram from '../components/Monogram.astro';
 import home from '../assets/site/home.jpg';
 import { homeNext } from '../data/now';
 import { nav, site } from '../data/site';
@@ -25,6 +26,7 @@ const featured = [
       <main class="home-main">
         <div class="home-text">
           <h1 class="visually-hidden">{site.name}</h1>
+          <Monogram class="home-mark" />
           <p>{site.award}</p>
           <p class="home-next">{homeNext.map((n) => <a href={n.href} data-until={n.until}>{n.label}</a>)}</p>
         </div>

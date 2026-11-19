@@ -297,6 +297,12 @@ main.page { padding-block: clamp(56px, 9vh, 104px) clamp(72px, 12vh, 140px); }
 
 .site-footer { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; padding-block: 24px; color: var(--muted); font-size: 13px; }
 .site-footer a:hover { color: var(--accent); }
+.monogram { display: block; }
+.foot-mark { flex-basis: 100%; display: flex; justify-content: center; padding-top: 18px; color: var(--muted); }
+.foot-mark .monogram { height: 46px; width: auto; transition: color .25s, transform .45s; }
+.foot-mark:hover .monogram { transform: rotate(-4deg); }
+.home-mark { height: clamp(96px, 13vh, 140px); width: auto; color: #bf4a54; margin-bottom: 18px; filter: drop-shadow(0 2px 14px rgba(0,0,0,.6)); }
+.lost-mark { height: 150px; width: auto; color: var(--accent); margin: 8px 0 28px; opacity: .9; }
 .socials { display: flex; gap: 10px; list-style: none; padding: 0; margin: 0; }
 .socials a { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; color: var(--muted); transition: color .2s; }
 .socials a:hover { color: var(--accent); }

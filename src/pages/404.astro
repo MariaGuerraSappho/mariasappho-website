@@ -1,8 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
+import Monogram from '../components/Monogram.astro';
 import redirects from '../data/redirects.json';
 ---
 <Base title="Page not found">
+  <Monogram class="lost-mark" />
   <h1 class="page-title">There’s nothing here</h1>
   <p class="lede">This page has moved or no longer exists. <a href="/work/">Browse the work</a> or <a href="/">go home</a>.</p>
   <script is:inline define:vars={{ redirects }}>

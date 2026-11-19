@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { nav, site, socials } from '../data/site';
 import Socials from '../components/Socials.astro';
+import Monogram from '../components/Monogram.astro';
 
 interface Props { title?: string; description?: string; onHero?: boolean; ogImage?: string; hidden?: boolean }
 const { title, description = site.description, onHero = false, ogImage = '/press/maria-sappho-press-photo.jpg', hidden = false } = Astro.props;
@@ -67,6 +68,7 @@ const person = {
         <footer class="site-footer">
           <Socials />
           <span class="foot-links"><a href={site.newsletter} rel="noopener" target="_blank">Newsletter</a><a href="/press/">Press kit</a><a href="/about/#contact">Contact</a></span>
+          <a class="foot-mark" href="/" aria-label="Maria Sappho, home"><Monogram /></a>
         </footer>
       </>
     )}

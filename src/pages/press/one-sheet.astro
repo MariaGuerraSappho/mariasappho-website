@@ -7,6 +7,7 @@ import piano from '../../assets/site/press-photo-piano.jpg';
 import { awards } from '../../data/press';
 import { bios, quotes, selected } from '../../data/presskit';
 import { site } from '../../data/site';
+import Monogram from '../../components/Monogram.astro';
 ---
 <!doctype html>
 <html lang="en">
@@ -14,7 +15,7 @@ import { site } from '../../data/site';
     <meta charset="utf-8" />
     <meta name="robots" content="noindex" />
     <title>Maria Guerra Sappho, one-page summary</title>
-    <style>
+    <style is:global>
       @page { size: A4; margin: 0; }
       * { box-sizing: border-box; }
       html, body { margin: 0; background: #0b0908; color: #e9e1d6; font: 10.5pt/1.5 'Questrial', sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -24,6 +25,8 @@ import { site } from '../../data/site';
       .role { color: #978c80; margin: 1mm 0 0; }
       img.hero { width: 100%; height: 60mm; object-fit: cover; object-position: 60% 20%; display: block; }
       p { margin: 0; }
+      .top { display: flex; justify-content: space-between; align-items: flex-end; }
+      .mark { height: 21mm; width: auto; color: #bf4a54; display: block; }
       img.side { width: 100%; height: auto; display: block; margin-top: 6mm; }
       .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; align-content: start; }
       ul { list-style: none; margin: 0 0 5mm; padding: 0; }
@@ -35,7 +38,7 @@ import { site } from '../../data/site';
   </head>
   <body>
     <main>
-      <header><h1>Maria Guerra Sappho</h1><p class="role">Artist, composer, improviser and researcher</p></header>
+      <header class="top"><div><h1>Maria Guerra Sappho</h1><p class="role">Artist, composer, improviser and researcher</p></div><Monogram class="mark" /></header>
       <Image src={photo} alt="" widths={[1400]} sizes="210mm" class="hero" />
       <div class="cols">
         <section>
