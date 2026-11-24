@@ -34,7 +34,6 @@ export const upcoming = [
   },
   { when: '28 Apr 2027', title: 'Noisebringers', where: 'Hošek Contemporary, Berlin', note: 'A Noisebringers evening on the boat in Berlin-Mitte.', href: '/collaborations/noisebringers/' },
   { when: '2027', title: 'Orpheus Institute Visiting Fellowship', where: 'Ghent', note: 'Futures in Artistic Research: developing the Posthuman Immigrant Toolkit.', href: '/research/' },
-  { when: '2026–27', title: 'SYZYGY in Brazil', where: 'With Improfest-Unicamp, Universidade Estadual de Campinas', note: 'Research and performance on electronic instrument design and creative technology in postcolonial contexts.', href: '/work/syzygy/' },
   { when: '2026–27', title: 'Climbing on Lyme', where: 'With Kate Steenhauer and NHS Grampian', note: 'Arts and health research on women’s experiences of chronic illness.', href: 'https://katesteenhauer.com/climbing-on-lyme/' },
 ];
 
