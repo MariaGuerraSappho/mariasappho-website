@@ -22,14 +22,14 @@ export const upcoming = [
   },
   { when: '28 Apr 2027', title: 'Noisebringers', where: 'Hošek Contemporary, Berlin', note: 'A Noisebringers evening on the boat in Berlin-Mitte.', href: '/collaborations/noisebringers/' },
   { when: '2027', title: 'Orpheus Institute Visiting Fellowship', where: 'Ghent', note: 'Futures in Artistic Research: developing the Posthuman Immigrant Toolkit.', href: '/research/' },
-  { when: '2026–27', title: 'SYZYGY in Brazil', where: 'Universidade Estadual de Campinas', note: 'Research and performance on electronic instrument design and creative technology in postcolonial contexts.', href: '/work/syzygy/' },
+  { when: '2026–27', title: 'SYZYGY in Brazil', where: 'Improfest-Unicamp, Universidade Estadual de Campinas', note: 'Research and performance on electronic instrument design and creative technology in postcolonial contexts.', href: '/work/syzygy/' },
   { when: '2026–27', title: 'Climbing on Lyme', where: 'With Kate Steenhauer and NHS Grampian', note: 'Arts and health research on women’s experiences of chronic illness.', href: 'https://katesteenhauer.com/climbing-on-lyme/' },
 ];
 
 export const recent = [
   { when: 'October 2026', title: 'BUZZ', where: 'Glasgow Improvisers Orchestra with Fred Frith', note: 'New album on scatterArchive, with me on piano.', href: '/work/buzz/' },
   { when: 'September 2026', title: 'Rivers and Other Mother Tongues', where: 'Gaudeamus Festival, Utrecht', note: 'A site-responsive iteration of ZEMI, in Resisting Waters.', href: '/work/rivers-and-other-mother-tongues/' },
-  { when: '2026', title: 'Improfest', where: 'Brazil', note: 'Invited artist and researcher.' },
+  { when: '2026', title: 'Improfest-Unicamp', where: 'Campinas, Brazil', note: 'Invited artist and researcher.' },
   { when: '2026', title: 'Meet Music Code Festival', where: 'Switzerland', note: 'Feminist tech practices concert and workshop.' },
   { when: 'June 2026', title: 'Best Installation, NIME', where: 'London', note: 'Zemi, with Colin Frank.', href: '/awards/nime-2026-best-installation.pdf' },
   { when: 'June 2026', title: 'Intelligences from the Underground symposium', where: 'Royal Conservatoire of Scotland', note: 'Two days of talks, labs and performance.', href: 'https://undergroundintelligences.com' },

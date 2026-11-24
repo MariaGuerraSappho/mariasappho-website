@@ -1,8 +1,8 @@
 export const currentProjects = [
   {
     title: 'SYZYGY',
-    when: 'Immersive Arts UK / Brazil, 2026–27',
-    summary: 'Research around immersive systems, electronic instrument design and situated technological practices, with a new strand on creative technology in postcolonial contexts at Universidade Estadual de Campinas.',
+    when: 'Immersive Arts UK / Improfest-Unicamp, Brazil, 2026–27',
+    summary: 'Research around immersive systems, electronic instrument design and situated technological practices, with a new strand on creative technology in postcolonial contexts with Improfest-Unicamp at the Universidade Estadual de Campinas.',
     href: '/work/syzygy/',
   },
   {
