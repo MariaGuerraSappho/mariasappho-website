@@ -25,8 +25,8 @@ export const upcoming = [
     ],
   },
   {
-    when: '15 Dec 2026', title: 'Improfest: Brutalust at Sesc 24 de Maio', where: 'São Paulo',
-    note: 'Brutalust with Colin Frank, as part of Improfest: free improvisation, experimental music and new sound technologies. Tuesday, 8pm, in the theatre. Tickets R$15–50, on sale online from 8 December at 5pm (Brazil time).',
+    when: '15 Dec 2026', title: 'Improfest: Brutalust and Paulo Hartmann', where: 'Sesc 24 de Maio, São Paulo',
+    note: 'Brutalust (Colin Frank and me) with Paulo Hartmann, as part of Improfest: free improvisation, experimental music and new sound technologies. Tuesday, 8pm, in the theatre. Tickets R$15–50, on sale online from 8 December at 5pm (Brazil time).',
     href: '/collaborations/brutalust/',
     links: [
       { label: 'Tickets and details', url: 'https://www.sescsp.org.br/programacao/brutalust/' },
@@ -54,6 +54,6 @@ export const recent = [
 export const homeNext = [
   { label: 'GIOfest XVIII, Glasgow, 26–28 Nov', href: '/now/', until: '2026-11-29' },
   { label: 'Improfest-Unicamp, Campinas, 1–4 Dec', href: '/work/syzygy/', until: '2026-12-05' },
-  { label: 'Improfest, Rio de Janeiro, 12 Dec', href: '/collaborations/brutalust/', until: '2026-12-13' },
-  { label: 'Improfest, São Paulo, 15 Dec', href: '/collaborations/brutalust/', until: '2026-12-16' },
+  { label: 'Improfest: Brutalust and Paulo Hartmann, Rio de Janeiro, 12 Dec', href: '/collaborations/brutalust/', until: '2026-12-13' },
+  { label: 'Improfest: Brutalust and Paulo Hartmann, São Paulo, 15 Dec', href: '/collaborations/brutalust/', until: '2026-12-16' },
 ];
