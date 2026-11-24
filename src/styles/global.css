@@ -301,7 +301,11 @@ main.page { padding-block: clamp(56px, 9vh, 104px) clamp(72px, 12vh, 140px); }
 .foot-mark { flex-basis: 100%; display: flex; justify-content: center; padding-top: 18px; color: var(--muted); }
 .foot-mark .monogram { height: 46px; width: auto; transition: color .25s, transform .45s; }
 .foot-mark:hover .monogram { transform: rotate(-4deg); }
-.home-mark { height: clamp(96px, 13vh, 140px); width: auto; color: #bf4a54; margin-bottom: 18px; filter: drop-shadow(0 2px 14px rgba(0,0,0,.6)); }
+.home-text { display: flex; align-items: flex-end; gap: clamp(16px, 2vw, 28px); }
+.home-text { min-width: 0; max-width: 100%; }
+.home-text > div { min-width: 0; }
+.home-next a { overflow-wrap: anywhere; }
+.home-mark { flex: none; height: clamp(84px, 12vh, 124px); width: auto; color: #bf4a54; filter: drop-shadow(0 2px 14px rgba(0,0,0,.6)); }
 .lost-mark { height: 150px; width: auto; color: var(--accent); margin: 8px 0 28px; opacity: .9; }
 .socials { display: flex; gap: 10px; list-style: none; padding: 0; margin: 0; }
 .socials a { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; color: var(--muted); transition: color .2s; }
@@ -328,7 +332,7 @@ main.page { padding-block: clamp(56px, 9vh, 104px) clamp(72px, 12vh, 140px); }
 .home-now .gesture g { filter: url(#ink); }
 .home-now a:hover { color: var(--text); }
 .home-now a:hover .gesture { transform: scale(1.06) rotate(-1deg); }
-.home-text .home-next { display: flex; flex-wrap: wrap; gap: 4px 24px; margin-top: 10px; font-size: 15px; color: var(--text); }
+.home-text .home-next { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin-top: 10px; font-size: 15px; color: var(--text); }
 .home-next a { border-bottom: 1px solid #bf4a54; padding-bottom: 1px; transition: color .2s; }
 .home-next a:hover { color: #bf4a54; }
 .home-foot { padding-block: 0 20px; }

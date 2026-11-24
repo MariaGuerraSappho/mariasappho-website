@@ -27,8 +27,10 @@ const featured = [
         <div class="home-text">
           <h1 class="visually-hidden">{site.name}</h1>
           <Monogram class="home-mark" />
-          <p>{site.award}</p>
-          <p class="home-next">{homeNext.map((n) => <a href={n.href} data-until={n.until}>{n.label}</a>)}</p>
+          <div>
+            <p>{site.award}</p>
+            <p class="home-next">{homeNext.map((n) => <a href={n.href} data-until={n.until}>{n.label}</a>)}</p>
+          </div>
         </div>
         <div class="home-now">
           {featured.map((f) => (
