@@ -1,7 +1,7 @@
 ---
 audio: ["https://bandcamp.com/EmbeddedPlayer/album=477099812/size=large/bgcol=ffffff/linkcol=d47f88/artwork=none/tracklist=true/#h=336"]
 collaborations: ["glasgow-improvisers-orchestra"]
-links: [{"label": "Listen on Bandcamp", "url": "https://scatterarchive.bandcamp.com/album/celebrating-monk"}, {"label": "Review: International Times", "url": "https://internationaltimes.it/relistening/"}]
+links: [{"label": "Listen on Bandcamp", "url": "https://scatterarchive.bandcamp.com/album/celebrating-monk"}, {"label": "Review: International Times", "url": "https://internationaltimes.it/relistening/"}, {"label": "Played on WFMU", "url": "https://www.wfmu.org/playlists/shows/170524"}]
 title: "Monk at the Border"
 subtitle: "Glasgow Improvisers Orchestra with Pat Thomas"
 year: 2025

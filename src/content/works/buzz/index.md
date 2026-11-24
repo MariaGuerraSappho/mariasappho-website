@@ -6,7 +6,7 @@ subtitle: "Glasgow Improvisers Orchestra with Fred Frith"
 year: 2026
 tags: ["recording"]
 themes: ["improvisation"]
-links: [{"label": "Listen on Bandcamp", "url": "https://scatterarchive.bandcamp.com/album/buzz"}, {"label": "About the album", "url": "https://www.glasgowimprovisersorchestra.com/blog/buzz/"}]
+links: [{"label": "Listen on Bandcamp", "url": "https://scatterarchive.bandcamp.com/album/buzz"}, {"label": "About the album", "url": "https://www.glasgowimprovisersorchestra.com/blog/buzz/"}, {"label": "Review: International Times", "url": "https://internationaltimes.it/164630-2/"}]
 related: ["monk-at-the-border", "gio-20-20"]
 ---
 

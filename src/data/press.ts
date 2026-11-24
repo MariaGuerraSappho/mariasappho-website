@@ -1,5 +1,7 @@
 // Add new reviews, interviews and broadcasts here; they appear on the About page, newest first.
 export const press = [
+  { title: 'Celebrating Monk on WFMU', outlet: 'WFMU, Observations of Deviance and destination: OUT', date: '2026', kind: 'Radio', url: 'https://www.wfmu.org/playlists/shows/170524' },
+  { title: 'Of Collaboration and Evolution: BUZZ', outlet: 'International Times (Dominic Rivron)', date: '2026', kind: 'Review', url: 'https://internationaltimes.it/164630-2/' },
   { title: 'Relistening: Celebrating Monk', outlet: 'International Times (Dominic Rivron)', date: '2026', kind: 'Review', quote: '‘Monk at the Border’ by Maria Sappho is a magical piece', url: 'https://internationaltimes.it/relistening/' },
   { title: 'Trust in the Art of Free Improvisation', outlet: 'Robert Burke and Andrys Onsman, Routledge', date: '2026', kind: 'Book, in-depth interviews' },
   { title: 'Reconfiguring access and creativity in improvised music', outlet: 'Jazz Research Journal (Una MacGlone and Raymond MacDonald)', date: '2025', kind: 'Article' },
