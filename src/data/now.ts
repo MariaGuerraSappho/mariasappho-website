@@ -12,23 +12,29 @@ export const upcoming = [
     ],
   },
   {
-    when: '12 Dec 2026', title: 'Improfest-Unicamp in Rio: Brutalust with Paulo Hartmann', where: 'Audio Rebel, Botafogo, Rio de Janeiro',
-    note: 'The 19th Improfest-Unicamp, and its first edition in Rio. Brutalust (Colin Frank and me) play as a trio with Brazilian guitarist Paulo Hartmann on prepared guitar, reunited after playing together with the Glasgow Improvisers Orchestra. Saturday afternoon, R$35 in advance, R$45 on the door.',
+    when: '1–4 Dec 2026', title: 'Improfest-Unicamp', where: 'Unicamp, Campinas',
+    note: 'Four days with Improfest-Unicamp at the Universidade Estadual de Campinas, opening the Brazil strand of SYZYGY. The full programme and links are coming soon.',
+    href: '/work/syzygy/',
+  },
+  {
+    when: '12 Dec 2026', title: 'Improfest: Brutalust and Paulo Hartmann', where: 'Audio Rebel, Botafogo, Rio de Janeiro',
+    note: 'The 19th Improfest, and its first edition in Rio. Brutalust (Colin Frank and me) play as a trio with Brazilian guitarist Paulo Hartmann on prepared guitar, reunited after playing together with the Glasgow Improvisers Orchestra. Saturday afternoon, R$35 in advance, R$45 on the door.',
+    href: '/collaborations/brutalust/',
     links: [
       { label: 'Tickets and details', url: 'https://audiorebel.com.br/agenda/improfest-brutalust-e-paulo-hartmann-na-audio-rebel' },
     ],
   },
   {
-    when: '15 Dec 2026', title: 'Brutalust at Sesc 24 de Maio', where: 'São Paulo',
-    note: 'Part of my Improfest-Unicamp visit to Brazil: Brutalust with Colin Frank, at the edges of free improvisation, experimental music and new sound technologies. Tuesday, 8pm, in the theatre. Tickets R$15–50.',
+    when: '15 Dec 2026', title: 'Improfest: Brutalust at Sesc 24 de Maio', where: 'São Paulo',
+    note: 'Brutalust with Colin Frank, as part of Improfest: free improvisation, experimental music and new sound technologies. Tuesday, 8pm, in the theatre. Tickets R$15–50, on sale online from 8 December at 5pm (Brazil time).',
+    href: '/collaborations/brutalust/',
     links: [
-      { label: 'Listing', url: 'https://concerto.com.br/roteiros/duo-brutalust' },
-      { label: 'Venue', url: 'https://www.sescsp.org.br/unidades/24-de-maio/' },
+      { label: 'Tickets and details', url: 'https://www.sescsp.org.br/programacao/brutalust/' },
     ],
   },
   { when: '28 Apr 2027', title: 'Noisebringers', where: 'Hošek Contemporary, Berlin', note: 'A Noisebringers evening on the boat in Berlin-Mitte.', href: '/collaborations/noisebringers/' },
   { when: '2027', title: 'Orpheus Institute Visiting Fellowship', where: 'Ghent', note: 'Futures in Artistic Research: developing the Posthuman Immigrant Toolkit.', href: '/research/' },
-  { when: '2026–27', title: 'SYZYGY in Brazil', where: 'Improfest-Unicamp, Universidade Estadual de Campinas', note: 'Research and performance on electronic instrument design and creative technology in postcolonial contexts.', href: '/work/syzygy/' },
+  { when: '2026–27', title: 'SYZYGY in Brazil', where: 'With Improfest-Unicamp, Universidade Estadual de Campinas', note: 'Research and performance on electronic instrument design and creative technology in postcolonial contexts.', href: '/work/syzygy/' },
   { when: '2026–27', title: 'Climbing on Lyme', where: 'With Kate Steenhauer and NHS Grampian', note: 'Arts and health research on women’s experiences of chronic illness.', href: 'https://katesteenhauer.com/climbing-on-lyme/' },
 ];
 
@@ -48,6 +54,7 @@ export const recent = [
 // Shown on the home page until the date passes, then they disappear by themselves.
 export const homeNext = [
   { label: 'GIOfest XVIII, Glasgow, 26–28 Nov', href: '/now/', until: '2026-11-29' },
-  { label: 'Improfest-Unicamp, Rio de Janeiro, 12 Dec', href: '/now/', until: '2026-12-13' },
-  { label: 'Brutalust, São Paulo, 15 Dec', href: '/now/', until: '2026-12-16' },
+  { label: 'Improfest-Unicamp, Campinas, 1–4 Dec', href: '/work/syzygy/', until: '2026-12-05' },
+  { label: 'Improfest, Rio de Janeiro, 12 Dec', href: '/collaborations/brutalust/', until: '2026-12-13' },
+  { label: 'Improfest, São Paulo, 15 Dec', href: '/collaborations/brutalust/', until: '2026-12-16' },
 ];

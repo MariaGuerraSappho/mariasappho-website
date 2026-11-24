@@ -4,7 +4,7 @@ subtitle: "Brutalust Immersive Studios"
 year: 2025
 tags: ["installation"]
 themes: ["immersive", "instruments"]
-links: [{"label": "Immersive Arts", "url": "https://immersivearts.uk/projects/syzygy/"}, {"label": "SOUND/IMAGE workshop, 7 November 2026", "url": "https://blogs.gre.ac.uk/sound-image/festivals/soundimagefestival/sound-image-2026-festival/sound-image-2026-festival-workshops/"}]
+links: [{"label": "Improfest-Unicamp, Campinas, 1–4 December 2026 (programme coming soon)", "url": "/now/"}, {"label": "Immersive Arts", "url": "https://immersivearts.uk/projects/syzygy/"}, {"label": "SOUND/IMAGE workshop, 7 November 2026", "url": "https://blogs.gre.ac.uk/sound-image/festivals/soundimagefestival/sound-image-2026-festival/sound-image-2026-festival-workshops/"}]
 videos: ["https://youtu.be/qTpAZd6wQiQ"]
 ---
 
@@ -13,3 +13,5 @@ Syzygy is an immersive mixed-reality work that invites audiences to compose toge
 The work asks whether immersive systems can offer ways of arriving into new worlds that resist colonial repetition, and treats intelligence as something that emerges through listening, adaptation and collective world-building, rather than in individual creators or computational systems.
 
 By Brutalust Immersive Studios: Maria Sappho (creative director), Colin Frank (lead technologist), Mike Parr Burman (technology assistant), Yoonwoo Ha (research assistant) and Raymond MacDonald (researcher). Supported by Immersive Arts UK, with first audience trials at the University of Huddersfield in July 2025.
+
+In 2026–27 the project develops a Brazil strand with Improfest-Unicamp at the Universidade Estadual de Campinas, on electronic instrument design and creative technology in postcolonial contexts. It begins with Improfest-Unicamp in Campinas, 1–4 December 2026; the full programme is coming soon.
