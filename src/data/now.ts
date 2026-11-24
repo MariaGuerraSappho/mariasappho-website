@@ -32,6 +32,14 @@ export const upcoming = [
       { label: 'Tickets and details', url: 'https://www.sescsp.org.br/programacao/brutalust/' },
     ],
   },
+  {
+    when: '5–7 Mar 2027', title: 'Noisebringers', where: 'Gustav Mahler Private University for Music, Klagenfurt',
+    note: 'Noisebringers in Klagenfurt, during the university’s Composition & Crisis symposium.',
+    href: '/collaborations/noisebringers/',
+    links: [
+      { label: 'Composition & Crisis symposium', url: 'https://www.musicaustria.at/gmpu-symposium-composition-crisis-call-for-papers/' },
+    ],
+  },
   { when: '28 Apr 2027', title: 'Noisebringers', where: 'Hošek Contemporary, Berlin', note: 'A Noisebringers evening on the boat in Berlin-Mitte.', href: '/collaborations/noisebringers/' },
   { when: '2027', title: 'Orpheus Institute Visiting Fellowship', where: 'Ghent', note: 'Futures in Artistic Research: developing the Posthuman Immigrant Toolkit.', href: '/research/' },
   { when: '2026–27', title: 'Climbing on Lyme', where: 'With Kate Steenhauer and NHS Grampian', note: 'Arts and health research on women’s experiences of chronic illness.', href: 'https://katesteenhauer.com/climbing-on-lyme/' },
