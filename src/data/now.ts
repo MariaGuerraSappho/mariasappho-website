@@ -40,6 +40,13 @@ export const upcoming = [
       { label: 'Composition & Crisis symposium', url: 'https://www.musicaustria.at/gmpu-symposium-composition-crisis-call-for-papers/' },
     ],
   },
+  {
+    when: '8–11 Apr 2027', title: 'Rhythm Changes Ten', where: 'Royal Birmingham Conservatoire, Birmingham',
+    note: 'The tenth Rhythm Changes international jazz research conference.',
+    links: [
+      { label: 'Conference website', url: 'https://rhythmchanges.net/rhythm-changes-ten/' },
+    ],
+  },
   { when: '28 Apr 2027', title: 'Noisebringers', where: 'Hošek Contemporary, Berlin', note: 'A Noisebringers evening on the boat in Berlin-Mitte.', href: '/collaborations/noisebringers/' },
   { when: '2027', title: 'Orpheus Institute Visiting Fellowship', where: 'Ghent', note: 'Futures in Artistic Research: developing the Posthuman Immigrant Toolkit.', href: '/research/' },
   { when: '2026–27', title: 'Climbing on Lyme', where: 'With Kate Steenhauer and NHS Grampian', note: 'Arts and health research on women’s experiences of chronic illness.', href: 'https://katesteenhauer.com/climbing-on-lyme/' },
